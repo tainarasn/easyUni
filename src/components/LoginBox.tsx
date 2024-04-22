@@ -44,6 +44,7 @@ export const LoginBox: React.FC<LoginBoxProps> = ({ isFlipped, setIsFlipped }) =
                         textAlign: "end",
                         fontSize: "0.9rem",
                         textDecoration: "underline",
+                        cursor: "pointer",
                     }}
                     onClick={() => {
                         setIsFlipped(!isFlipped)

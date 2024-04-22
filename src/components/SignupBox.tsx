@@ -38,7 +38,7 @@ export const SignupBox: React.FC<SignupBoxProps> = ({ isFlipped, setIsFlipped })
             >
                 <TextFieldUni sx={{ width: 1 }} label="Nome Completo" value="" onChange={() => {}} />
                 <TextFieldUni sx={{ width: 1 }} label="E-mail" type="email" value="" onChange={() => {}} />
-                <Box sx={{ width: 1, gap: "1vw" }}>
+                <Box sx={{ width: 1, gap: "0.5vw" }}>
                     <TextFieldUni sx={{ width: 1 }} label="Nome de usuário" type="password" value="" onChange={() => {}} />
                     <TextFieldUni sx={{ width: 1 }} label="Senha" type="password" value="" onChange={() => {}} />
                 </Box>
@@ -50,6 +50,7 @@ export const SignupBox: React.FC<SignupBoxProps> = ({ isFlipped, setIsFlipped })
                         textAlign: "end",
                         fontSize: "0.9rem",
                         textDecoration: "underline",
+                        cursor: "pointer",
                     }}
                     onClick={() => {
                         setIsFlipped(!isFlipped)

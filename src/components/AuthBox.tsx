@@ -18,7 +18,6 @@ const cardStyle = {
     position: "relative",
     transition: "transform 0.8s",
     transformStyle: "preserve-3d",
-    cursor: "pointer",
 }
 
 const cardFaceStyle = {
@@ -45,7 +44,7 @@ export const AuthBox: React.FC = () => {
     }
 
     return (
-        <Box sx={containerStyle} onClick={handleClick}>
+        <Box sx={containerStyle}>
             <Box sx={{ ...cardStyle, transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)" }}>
                 <Box sx={isFlipped ? backStyle : frontStyle}>
                     {isFlipped ? (
