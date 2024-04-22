@@ -1,11 +1,10 @@
 import React from "react"
 import { Box } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import utfpr from "../assets/logos/utfpr-universidade-tecnologica-federal-do-parana-logo-6CF2B55F31-seeklogo.com.png"
-import { TextFieldUni } from "./TextFieldUni"
-import { colors } from "../styles/colors"
-import { ButtonUni } from "./ButtonUni"
-import { HiOutlineMail } from "react-icons/hi"
+import utfpr from "../../assets/logos/utfpr-universidade-tecnologica-federal-do-parana-logo-6CF2B55F31-seeklogo.com.png"
+import { TextFieldUni } from "../TextFieldUni"
+import { colors } from "../../styles/colors"
+import { ButtonUni } from "../ButtonUni"
 
 interface SignupBoxProps {
     isFlipped: boolean

@@ -4,7 +4,6 @@ import { Routes as ReactRoutes, Route } from "react-router-dom"
 
 import { Home } from "./pages/Home"
 import { Auth } from "./pages/Authentication"
-import { Signup } from "./pages/Signup"
 // import { useUser } from "./hooks/useUser"
 import { Student } from "./pages/Student"
 import { useUser } from "./hooks/useUser"
@@ -29,8 +28,8 @@ const UnauthenticatedRoutes = () => (
         <Route index element={<Home />} />
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/signup" element={<Signup />} />
         <Route path="/*" element={<Home />} />
+        <Route path="/student/*" element={<Student />} />
     </ReactRoutes>
 )
 
