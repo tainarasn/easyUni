@@ -3,7 +3,7 @@ import { Routes as ReactRoutes, Route } from "react-router-dom"
 // import { User } from "./types/server/class"
 
 import { Home } from "./pages/Home"
-import { Login } from "./pages/Login"
+import { Auth } from "./pages/Authentication"
 import { Signup } from "./pages/Signup"
 // import { useUser } from "./hooks/useUser"
 import { Student } from "./pages/Student"
@@ -27,8 +27,8 @@ const UserRoutes: React.FC<{ user: User }> = ({ user }) => {
 const UnauthenticatedRoutes = () => (
     <ReactRoutes>
         <Route index element={<Home />} />
-        <Route path="/" element={<Home />} />z
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<Auth />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/*" element={<Home />} />
     </ReactRoutes>

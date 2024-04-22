@@ -1,7 +1,7 @@
 import { SxProps } from "@mui/material"
 import { colors } from "./colors"
 
-export const textField = {
+export const style_textfield = {
     "& .MuiInputLabel-root.Mui-focused ": {
         color: colors.primary,
         // Removendo a propriedade border
@@ -11,7 +11,7 @@ export const textField = {
     },
     "& .MuiOutlinedInput-root": {
         fieldset: {
-            borderRadius: "5vw",
+            borderRadius: "1vw",
             border: "0.5px solid #ECE6F0",
         },
     },
