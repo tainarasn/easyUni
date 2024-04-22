@@ -9,10 +9,10 @@ import { colors } from "../../styles/colors"
 import { useNavigate } from "react-router-dom"
 
 const data = [
-    { link: "", label: "Início", icon: IconHome },
-    { link: "", label: "Disciplinas", icon: IconBooks },
-    { link: "", label: "Gerar Ranking", icon: IconSchool },
-    { link: "", label: "Ativ. Complementares", icon: IconHours24 },
+    { link: "/student/init", label: "Início", icon: IconHome },
+    { link: "/student/materias", label: "Disciplinas", icon: IconBooks },
+    { link: "/student/ranking", label: "Gerar Ranking", icon: IconSchool },
+    { link: "/student/atividades", label: "Ativ. Complementares", icon: IconHours24 },
 ]
 
 interface MenuProps {}
@@ -24,11 +24,11 @@ export const Menu: React.FC<MenuProps> = ({}) => {
         <a
             className={classes.link}
             data-active={item.label === active || undefined}
-            href={item.link}
             key={item.label}
             onClick={(event) => {
                 event.preventDefault()
                 setActive(item.label)
+                navigate(item.link)
             }}
         >
             <item.icon className={classes.linkIcon} stroke={1.5} />
