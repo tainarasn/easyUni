@@ -27,7 +27,7 @@ export const PanelStudent: React.FC<PanelStudentProps> = ({ location }) => {
                 <Menu />
                 <Box
                     sx={{
-                        width: 1,
+                        width: 0.9,
                         height: 1,
                         borderRadius: "1vw",
                         padding: "2vw",

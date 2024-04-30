@@ -8,7 +8,7 @@ interface HeaderUniProps {}
 export const HeaderUni: React.FC<HeaderUniProps> = ({}) => {
     return (
         <Box sx={{ width: 1, height: "6vh", gap: "1vw", borderRadius: "1vw", justifyContent: "space-between" }}>
-            <TextFieldUni sx={{ width: 0.9 }} />
+            <TextFieldUni sx={{ width: 1 }} />
             <Box
                 sx={{
                     width: 0.2,

@@ -39,7 +39,7 @@ export const Menu: React.FC<MenuProps> = ({}) => {
     return (
         <nav
             className={classes.navbar}
-            style={{ backgroundColor: colors.black3, width: "18%", padding: "2vw", borderRadius: "1vw 0 4vw 1vw" }}
+            style={{ backgroundColor: colors.black3, width: "15vw", padding: "2vw", borderRadius: "1vw 0 4vw 1vw" }}
         >
             <Box className={classes.navbarMain} sx={{ flexDirection: "column", gap: "1.2vw" }}>
                 <Group className={classes.header} style={{ alignItems: "center", width: "100%", padding: "1vw" }}>

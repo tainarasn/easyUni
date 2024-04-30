@@ -1,7 +1,8 @@
 import React from "react"
-import { Box, Chip, Grid, colors } from "@mui/material"
+import { Box, Chip, Grid } from "@mui/material"
 import { TitleUni } from "../../../../components/TitleUni"
 import { useArray } from "burgos-array"
+import { colors } from "../../../../styles/colors"
 
 interface HomeStudentProps {}
 
