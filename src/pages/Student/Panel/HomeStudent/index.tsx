@@ -3,6 +3,7 @@ import { Box, Chip, Grid } from "@mui/material"
 import { TitleUni } from "../../../../components/TitleUni"
 import { useArray } from "burgos-array"
 import { colors } from "../../../../styles/colors"
+import { Resume } from "../../../../components/Resume"
 
 interface HomeStudentProps {}
 
@@ -111,15 +112,7 @@ export const HomeStudent: React.FC<HomeStudentProps> = ({}) => {
                         </Grid>
                     </Box>
                 </Box>
-                <Box
-                    sx={{
-                        width: 0.5,
-                        height: 1,
-                        flexDirection: "column",
-                        borderRadius: "1vw",
-                        boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px",
-                    }}
-                ></Box>
+                <Resume />
             </Box>
         </Box>
     )
