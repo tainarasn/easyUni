@@ -1,12 +1,14 @@
 import React, { useState } from "react"
-
+import Logo from "../../assets/logos/logo_completa (1).png"
 import { Box } from "@mui/material"
 import { LoginBox } from "./LoginBox"
 import { SignupBox } from "./SignupBox"
 
 const containerStyle = {
     perspective: "1000px",
-    height: "63vh", // Definindo a altura da caixa principal
+    height: "70vh", // Definindo a altura da caixa principal
+    flexDirection: "column",
+    alignItems: "center",
 }
 
 const cardStyle = {
@@ -41,6 +43,7 @@ export const AuthBox: React.FC = () => {
 
     return (
         <Box sx={containerStyle}>
+            <img src={Logo} style={{ width: "12vw" }} />
             <Box sx={{ ...cardStyle, transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)" }}>
                 <Box sx={isFlipped ? backStyle : frontStyle}>
                     {isFlipped ? (
