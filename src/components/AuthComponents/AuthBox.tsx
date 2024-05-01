@@ -39,10 +39,6 @@ const backStyle = {
 export const AuthBox: React.FC = () => {
     const [isFlipped, setIsFlipped] = useState(false)
 
-    const handleClick = () => {
-        setIsFlipped(!isFlipped)
-    }
-
     return (
         <Box sx={containerStyle}>
             <Box sx={{ ...cardStyle, transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)" }}>

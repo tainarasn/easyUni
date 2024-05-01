@@ -61,7 +61,7 @@ export const SignupBox: React.FC<SignupBoxProps> = ({ isFlipped, setIsFlipped })
             <ButtonUni
                 size="large"
                 onClick={() => {
-                    navigate("/student")
+                    navigate("/easyUni/student")
                 }}
             >
                 Cadastrar

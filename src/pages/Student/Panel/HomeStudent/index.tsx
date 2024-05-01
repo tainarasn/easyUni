@@ -1,14 +1,12 @@
 import React from "react"
 import { Box, Chip, Grid } from "@mui/material"
 import { TitleUni } from "../../../../components/TitleUni"
-import { useArray } from "burgos-array"
 import { colors } from "../../../../styles/colors"
 import { Resume } from "../../../../components/Resume"
 
 interface HomeStudentProps {}
 
 export const HomeStudent: React.FC<HomeStudentProps> = ({}) => {
-    const materias = useArray().newArray(6)
     const materiasEngComp = [
         "Cálculo I",
         "Robótica I",

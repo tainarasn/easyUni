@@ -11,14 +11,6 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia }) => {
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
 
-    const materiasEngComp = [
-        "Cálculo I",
-        "Robótica I",
-        "Álgebra Linear",
-        "Introdução à Programação",
-        "Circuitos Digitais",
-        "Robótica II",
-    ]
     return (
         <Box
             sx={{

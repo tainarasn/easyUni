@@ -1,4 +1,3 @@
-import { SxProps } from "@mui/material"
 import { colors } from "./colors"
 
 export const style_textfield = {

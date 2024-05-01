@@ -1,5 +1,3 @@
-import { yellow } from "@mui/material/colors"
-
 export const colors = {
     primary: "#242424",
     black2: "#1a1a1b",

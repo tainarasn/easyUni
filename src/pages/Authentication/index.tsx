@@ -1,7 +1,5 @@
-import Skeleton from "@mui/material/Skeleton"
 import Box from "@mui/material/Box"
 import React from "react"
-import { useNavigate } from "react-router-dom"
 import { AuthBox } from "../../components/AuthComponents/AuthBox"
 
 interface AuthProps {}

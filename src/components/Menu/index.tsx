@@ -59,7 +59,7 @@ export const Menu: React.FC<MenuProps> = ({}) => {
                     <IconUser className={classes.linkIcon} stroke={1.5} />
                     <span>Minha Conta</span>
                 </a>
-                <p className={classes.link} onClick={() => navigate("/auth")}>
+                <p className={classes.link} onClick={() => navigate("/easyUni/auth")}>
                     <IconLogout className={classes.linkIcon} stroke={1.5} />
                     <span>Sair</span>
                 </p>

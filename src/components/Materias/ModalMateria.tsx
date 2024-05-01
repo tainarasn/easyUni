@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Button, Chip, Divider, Modal } from "@mui/material"
+import { Box, Chip, Divider, Modal } from "@mui/material"
 import Fade from "@mui/material/Fade"
 import Backdrop from "@mui/material/Backdrop"
 import { colors } from "../../styles/colors"

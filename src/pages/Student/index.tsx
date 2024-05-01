@@ -1,9 +1,6 @@
 import React from "react"
-import { Box } from "@mui/material"
 import { Routes as ReactRoutes, Route } from "react-router-dom"
 import { PanelStudent } from "./Panel"
-import { Menu } from "../../components/Menu"
-import { HeaderUni } from "../../components/HeaderUni"
 
 interface StudentProps {
     // user: User
