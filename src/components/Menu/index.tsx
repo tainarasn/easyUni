@@ -9,10 +9,10 @@ import { colors } from "../../styles/colors"
 import { useNavigate } from "react-router-dom"
 
 const data = [
-    { link: "/student/init", label: "Início", icon: IconHome },
-    { link: "/student/materias", label: "Disciplinas", icon: IconBooks },
-    { link: "/student/ranking", label: "Gerar Ranking", icon: IconSchool },
-    { link: "/student/atividades", label: "Ativ. Complementares", icon: IconHours24 },
+    { link: "/easyUni/student/init", label: "Início", icon: IconHome },
+    { link: "/easyUni/student/materias", label: "Disciplinas", icon: IconBooks },
+    { link: "/easyUni/student/ranking", label: "Gerar Ranking", icon: IconSchool },
+    { link: "/easyUni/student/atividades", label: "Ativ. Complementares", icon: IconHours24 },
 ]
 
 interface MenuProps {}
