@@ -17,7 +17,7 @@ const UserRoutes: React.FC<{ user: User }> = ({}) => {
         <>
             {/* <BottomNavigation section={user.student ? bottomMenu.student : bottomMenu.creator} /> */}
             <ReactRoutes>
-                <Route path="/easyUni/student/*" element={<Student />} />
+                <Route path="/student/*" element={<Student />} />
             </ReactRoutes>
         </>
     )
@@ -26,10 +26,10 @@ const UserRoutes: React.FC<{ user: User }> = ({}) => {
 const UnauthenticatedRoutes = () => (
     <ReactRoutes>
         <Route index element={<Home />} />
-        <Route path="/easyUni/" element={<Home />} />
-        <Route path="/easyUni/*" element={<Home />} />
-        <Route path="/easyUni/auth" element={<Auth />} />
-        <Route path="/easyUni/student/*" element={<Student />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/*" element={<Home />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/student/*" element={<Student />} />
     </ReactRoutes>
 )
 

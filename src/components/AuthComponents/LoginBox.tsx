@@ -56,7 +56,7 @@ export const LoginBox: React.FC<LoginBoxProps> = ({ isFlipped, setIsFlipped }) =
             <ButtonUni
                 size="large"
                 onClick={() => {
-                    navigate("/easyUni/student")
+                    navigate("/student")
                 }}
             >
                 Entrar

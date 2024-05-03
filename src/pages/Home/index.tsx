@@ -10,7 +10,7 @@ export const Home: React.FC<HomeProps> = ({}) => {
     return (
         <Box sx={{ height: "100%", width: "100%" }}>
             <Box sx={{ width: "100vw", height: "100%", gap: "0.8vw", justifyContent: "center", alignItems: "center" }}>
-                <Button variant="contained" onClick={() => navigate("/easyUni/auth")}>
+                <Button variant="contained" onClick={() => navigate("/auth")}>
                     Login
                 </Button>
             </Box>
