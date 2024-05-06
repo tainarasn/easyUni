@@ -2,12 +2,14 @@ import React from "react"
 import { Box, Chip } from "@mui/material"
 import { TitleUni } from "../../../../components/TitleUni"
 import { useArray } from "burgos-array"
-import { BoxMateria } from "../../../../components/Materias/BoxMateria"
 import { colors } from "../../../../styles/colors"
+import { useHorizontalScroll } from "../../../../hooks/useHorizontalScroll"
+import { MateriaBox } from "../../../../components/Materias/MateriaBox"
 
 interface MateriasProps {}
 
 export const Materias: React.FC<MateriasProps> = ({}) => {
+    const scrollRef = useHorizontalScroll()
     const periods = useArray().newArray(10)
     const materias = [
         { code: "EC101", name: "Introdução à Engenharia de Computação", totalHours: 60, period: 1 },
@@ -48,6 +50,7 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
         <Box sx={{ width: 1, height: 1, flexDirection: "column", gap: "0.8vw", borderRadius: 0 }}>
             <TitleUni title="Resumo" />
             <Box
+                ref={scrollRef}
                 sx={{
                     width: "76vw",
                     height: 0.88,
@@ -55,6 +58,7 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
                     gap: "0.8vw",
                     overflowX: "auto",
                     borderRadius: 0,
+                    scrollSnapType: "x",
                     "&::-webkit-scrollbar": {
                         width: "0.3vw",
                         height: "0.3vw",
@@ -96,7 +100,7 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
                         {materias
                             .filter((item) => item.period == index + 1)
                             .map((materia, i) => (
-                                <BoxMateria key={i} materia={materia} />
+                                <MateriaBox key={i} materia={materia} />
                             ))}
                     </Box>
                 ))}
