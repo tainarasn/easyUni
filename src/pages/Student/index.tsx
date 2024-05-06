@@ -14,6 +14,7 @@ export const Student: React.FC<StudentProps> = ({}) => {
             <Route path="/materias" element={<PanelStudent location="materias" />} />
             <Route path="/ranking" element={<PanelStudent location="ranking" />} />
             <Route path="/atividades" element={<PanelStudent location="atividades" />} />
+            <Route path="/account" element={<PanelStudent location="account" />} />
         </ReactRoutes>
     )
 }

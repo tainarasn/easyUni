@@ -78,6 +78,10 @@ body {
     border-radius: 3vw;
 }
 
+.MuiIconButton-root:focus {
+    outline: none;
+}
+
 img {
     object-fit: contain;
 }

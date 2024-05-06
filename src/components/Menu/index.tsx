@@ -7,11 +7,12 @@ import classes from "./NavbarSimple.module.css"
 import { Box } from "@mui/material"
 import { colors } from "../../styles/colors"
 import { useNavigate } from "react-router-dom"
+import Logo from "../../assets/logos/favicon.png"
 
 const data = [
     { link: "/student/init", label: "Início", icon: IconHome },
     { link: "/student/materias", label: "Disciplinas", icon: IconBooks },
-    { link: "/student/ranking", label: "Gerar Ranking", icon: IconSchool },
+    { link: "/student/ranking", label: "Atualizar Grade", icon: IconSchool },
     { link: "/student/atividades", label: "Ativ. Complementares", icon: IconHours24 },
 ]
 
@@ -49,13 +50,22 @@ export const Menu: React.FC<MenuProps> = ({}) => {
                             width: "100%",
                             filter: "brightness(5%) saturate(70100%) invert(100%) hue-rotate(180deg)",
                         }}
+                        onClick={() => {
+                            navigate("/student/init")
+                        }}
                     />
                 </Group>
                 <Box sx={{ pt: "2vw", flexDirection: "column", gap: "1.2vw" }}>{links}</Box>
             </Box>
 
             <Box className={classes.footer} sx={{ flexDirection: "column", gap: "1.2vw" }}>
-                <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+                <a
+                    href="/student/account"
+                    className={classes.link}
+                    onClick={() => {
+                        navigate("/student/account")
+                    }}
+                >
                     <IconUser className={classes.linkIcon} stroke={1.5} />
                     <span>Minha Conta</span>
                 </a>
@@ -63,7 +73,10 @@ export const Menu: React.FC<MenuProps> = ({}) => {
                     <IconLogout className={classes.linkIcon} stroke={1.5} />
                     <span>Sair</span>
                 </p>
-                <Code fw={700}>v1.0.0</Code>
+                <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
+                    <Code fw={700}>v1.1.0</Code>
+                    <img src={Logo} style={{ width: "1.5vw" }} />
+                </Box>
             </Box>
         </nav>
     )

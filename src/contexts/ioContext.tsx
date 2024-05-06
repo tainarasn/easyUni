@@ -24,7 +24,7 @@ export const IoProvider: React.FC<IoProviderProps> = ({ children }) => {
     useEffect(() => {
         io.once("connect_error", (error) => {
             console.log(error)
-            snackbar({ severity: "error", text: "Não foi possível se conectar com o servidor." })
+            // snackbar({ severity: "error", text: "Não foi possível se conectar com o servidor." })
 
             api.get("/").then((response) => {
                 console.log(response.data)
