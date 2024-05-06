@@ -1,5 +1,5 @@
-import React from "react"
-import { Box } from "@mui/material"
+import React, { useState } from "react"
+import { Box, IconButton } from "@mui/material"
 import { Menu } from "../../../components/Menu"
 import { HeaderUni } from "../../../components/HeaderUni"
 import { HomeStudent } from "./HomeStudent"
@@ -7,12 +7,17 @@ import { Materias } from "./Materias"
 import { Ranking } from "./Ranking"
 import { Atividades } from "./Atividades"
 import { colors } from "../../../styles/colors"
+import { Account } from "./Account"
+import { BiSupport } from "react-icons/bi"
+import { ModalSupport } from "../../../components/Support/ModalSupport"
 
 interface PanelStudentProps {
     location: string
 }
 
 export const PanelStudent: React.FC<PanelStudentProps> = ({ location }) => {
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => setOpen(true)
     return (
         <Box sx={{ width: 1, height: 1, alignItems: "center", justifyContent: "center", p: "2vw" }}>
             <Box
@@ -52,9 +57,18 @@ export const PanelStudent: React.FC<PanelStudentProps> = ({ location }) => {
                             <Materias />
                         ) : location == "ranking" ? (
                             <Ranking />
+                        ) : location == "account" ? (
+                            <Account />
                         ) : (
                             location == "atividades" && <Atividades />
                         )}
+                        <IconButton
+                            sx={{ bgcolor: colors.black3, position: "fixed", bottom: "4vw", right: "4vw", p: "1vw" }}
+                            onClick={handleOpen}
+                        >
+                            <BiSupport color="#fff" size="1.5vw" />
+                        </IconButton>
+                        <ModalSupport open={open} setOpen={setOpen} />
                     </Box>
                 </Box>
             </Box>
