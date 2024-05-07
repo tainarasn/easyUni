@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { Box, IconButton } from "@mui/material"
 import { ModalMateria } from "./ModalMateria"
 import { IoEyeOutline } from "react-icons/io5"
@@ -15,7 +15,6 @@ interface BoxMateriaProps {
 export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria }) => {
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
-    const [active, setActive] = useState(false)
 
     const formik = useFormik({
         initialValues: {
@@ -28,7 +27,7 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria
             requirements: materia.requirements,
         },
 
-        onSubmit: (values: any) => {
+        onSubmit: () => {
             console.log("opa")
         },
     })
