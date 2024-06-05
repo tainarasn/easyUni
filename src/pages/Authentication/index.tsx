@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box"
 import React from "react"
-import { AuthBox } from "../../components/AuthComponents/AuthBox"
+import { AuthBox } from "./AuthComponents/AuthBox"
 
 interface AuthProps {}
 

@@ -1,6 +1,6 @@
 import { createContext, useState } from "react"
 import React from "react"
-import { User } from "../types/class/user"
+import { User } from "../types/server/class/user"
 
 interface UserContextValue {
     user: User | null

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import Logo from "../../assets/logos/logo_completa (1).png"
+import Logo from "../../../assets/logos/logo_completa (1).png"
 import { Box } from "@mui/material"
 import { LoginBox } from "./LoginBox"
 import { SignupBox } from "./SignupBox"

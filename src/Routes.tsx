@@ -4,7 +4,7 @@ import { Routes as ReactRoutes, Route } from "react-router-dom"
 import { Auth } from "./pages/Authentication"
 import { Student } from "./pages/Student"
 import { useUser } from "./hooks/useUser"
-import { User } from "./types/class/user"
+import { User } from "./types/server/class/user"
 
 interface RoutesProps {}
 
