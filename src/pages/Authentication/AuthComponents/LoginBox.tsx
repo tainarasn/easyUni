@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Box } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import utfpr from "../../../assets/logos/utfpr-universidade-tecnologica-federal-do-parana-logo-6CF2B55F31-seeklogo.com.png"
@@ -8,6 +8,8 @@ import { ButtonUni } from "../../../components/ButtonUni"
 import { useFormik } from "formik"
 import { api } from "../../../api"
 import { LoginForm } from "../../../types/shared/login"
+import { useUser } from "../../../hooks/useUser"
+import { User } from "../../../types/server/class/user"
 
 interface LoginBoxProps {
     isFlipped: boolean
@@ -16,6 +18,7 @@ interface LoginBoxProps {
 
 export const LoginBox: React.FC<LoginBoxProps> = ({ isFlipped, setIsFlipped }) => {
     const navigate = useNavigate()
+    const { user, setUser } = useUser()
     const formik = useFormik<LoginForm>({
         initialValues: {
             code: "",
@@ -29,13 +32,16 @@ export const LoginBox: React.FC<LoginBoxProps> = ({ isFlipped, setIsFlipped }) =
     const login = async (values: LoginForm) => {
         try {
             const response = await api.post("/login", values)
+            setUser(response.data)
             console.log(response)
-            navigate("/student")
+            navigate("/admin")
         } catch (error) {
             console.log(error)
         }
     }
-
+    useEffect(() => {
+        console.log(user)
+    }, [user])
     return (
         <Box
             sx={{

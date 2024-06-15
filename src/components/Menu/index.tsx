@@ -2,40 +2,65 @@ import React from "react"
 import { useState } from "react"
 import { Group, Code } from "@mantine/core"
 import utfpr from "../../assets/logos/utfpr-universidade-tecnologica-federal-do-parana-logo-6CF2B55F31-seeklogo.com.png"
-import { IconBooks, IconHours24, IconLogout, IconUser, IconHome, IconSchool } from "@tabler/icons-react"
+import { IconBooks, IconHours24, IconLogout, IconUser, IconHome, IconSchool, IconUsers } from "@tabler/icons-react"
+import { GrGroup } from "react-icons/gr"
 import classes from "./NavbarSimple.module.css"
 import { Box } from "@mui/material"
 import { colors } from "../../styles/colors"
 import { useNavigate } from "react-router-dom"
 import Logo from "../../assets/logos/favicon.png"
+import { useUser } from "../../hooks/useUser"
 
-const data = [
+const dataStudent = [
     { link: "/student/init", label: "Início", icon: IconHome },
     { link: "/student/materias", label: "Disciplinas", icon: IconBooks },
     { link: "/student/ranking", label: "Atualizar Grade", icon: IconSchool },
     { link: "/student/atividades", label: "Ativ. Complementares", icon: IconHours24 },
+]
+const dataAdmin = [
+    { link: "/admin/init", label: "Início", icon: IconHome },
+    { link: "/admin/materias", label: "Disciplinas", icon: IconBooks },
+    { link: "/admin/courses", label: "Cursos", icon: IconSchool },
+    { link: "/admin/students", label: "Estudantes", icon: IconUsers },
 ]
 
 interface MenuProps {}
 
 export const Menu: React.FC<MenuProps> = ({}) => {
     const [active, setActive] = useState("Billing")
+    const { user } = useUser()
     const navigate = useNavigate()
-    const links = data.map((item) => (
-        <a
-            className={classes.link}
-            data-active={item.label === active || undefined}
-            key={item.label}
-            onClick={(event) => {
-                event.preventDefault()
-                setActive(item.label)
-                navigate(item.link)
-            }}
-        >
-            <item.icon className={classes.linkIcon} stroke={1.5} />
-            <span>{item.label}</span>
-        </a>
-    ))
+    const links = user?.isAdmin
+        ? dataAdmin.map((item) => (
+              <a
+                  className={classes.link}
+                  data-active={item.label === active || undefined}
+                  key={item.label}
+                  onClick={(event) => {
+                      event.preventDefault()
+                      setActive(item.label)
+                      navigate(item.link)
+                  }}
+              >
+                  <item.icon className={classes.linkIcon} stroke={1.5} />
+                  <span>{item.label}</span>
+              </a>
+          ))
+        : dataStudent.map((item) => (
+              <a
+                  className={classes.link}
+                  data-active={item.label === active || undefined}
+                  key={item.label}
+                  onClick={(event) => {
+                      event.preventDefault()
+                      setActive(item.label)
+                      navigate(item.link)
+                  }}
+              >
+                  <item.icon className={classes.linkIcon} stroke={1.5} />
+                  <span>{item.label}</span>
+              </a>
+          ))
 
     return (
         <nav
@@ -51,7 +76,7 @@ export const Menu: React.FC<MenuProps> = ({}) => {
                             filter: "brightness(5%) saturate(70100%) invert(100%) hue-rotate(180deg)",
                         }}
                         onClick={() => {
-                            navigate("/student/init")
+                            navigate(user?.isAdmin ? "/admin/init" : "/student/init")
                         }}
                     />
                 </Group>
@@ -60,10 +85,10 @@ export const Menu: React.FC<MenuProps> = ({}) => {
 
             <Box className={classes.footer} sx={{ flexDirection: "column", gap: "1.2vw" }}>
                 <a
-                    href="/student/account"
+                    href={user?.isAdmin ? "/admin/account" : "/student/account"}
                     className={classes.link}
                     onClick={() => {
-                        navigate("/student/account")
+                        navigate(user?.isAdmin ? "/admin/account" : "/student/account")
                     }}
                 >
                     <IconUser className={classes.linkIcon} stroke={1.5} />

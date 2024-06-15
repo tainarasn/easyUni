@@ -2,10 +2,12 @@ import React from "react"
 import { Avatar, Box } from "@mui/material"
 import { TextFieldUni } from "./TextFieldUni"
 import { colors } from "../styles/colors"
+import { useUser } from "../hooks/useUser"
 
 interface HeaderUniProps {}
 
 export const HeaderUni: React.FC<HeaderUniProps> = ({}) => {
+    const { user } = useUser()
     return (
         <Box sx={{ width: 1, height: "6vh", gap: "1vw", borderRadius: "1vw", justifyContent: "space-between" }}>
             <TextFieldUni sx={{ width: 1 }} />
@@ -21,8 +23,8 @@ export const HeaderUni: React.FC<HeaderUniProps> = ({}) => {
                 }}
             >
                 <Box sx={{ flexDirection: "column", alignItems: "end" }}>
-                    <p style={{ color: colors.black3 }}>[Nome do Estudante]</p>
-                    <p style={{ color: colors.black3 }}>[período]</p>
+                    <p style={{ color: colors.black3 }}>{user?.name}</p>
+                    <p style={{ color: colors.black3 }}>{user?.isAdmin ? "Administração" : user?.student.period + "º"}</p>
                 </Box>
                 <Avatar sx={{ width: "2.5vw", height: "2.5vw" }} />
             </Box>
