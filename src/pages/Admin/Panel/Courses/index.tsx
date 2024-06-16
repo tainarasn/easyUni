@@ -115,7 +115,7 @@ export const Courses: React.FC<CoursesProps> = ({}) => {
                         .sort((a, b) => b.id - a.id)
                         .slice((page - 1) * itemsPerPage, page * itemsPerPage)
                         .map((course, i) => (
-                            <Grid item xs={5.5}>
+                            <Grid item xs={5.9}>
                                 <CourseCard
                                     key={i}
                                     course={course}

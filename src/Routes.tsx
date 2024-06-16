@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Routes as ReactRoutes, Route } from "react-router-dom"
 // import { Home } from "./pages/Home"
 import { Auth } from "./pages/Authentication"
@@ -41,6 +41,14 @@ const UnauthenticatedRoutes = () => (
 
 export const Routes: React.FC<RoutesProps> = ({}) => {
     const { user } = useUser()
-
-    return user ? user.isAdmin ? <AdminRoutes user={user} /> : <UserRoutes user={user} /> : <UnauthenticatedRoutes />
+    useEffect(() => {
+        console.log(user)
+    }, [user])
+    return user?.isAdmin ? (
+        <AdminRoutes user={user} />
+    ) : user?.student ? (
+        <UserRoutes user={user} />
+    ) : (
+        <UnauthenticatedRoutes />
+    )
 }

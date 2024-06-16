@@ -1,5 +1,5 @@
-import React, { useEffect } from "react"
-import { Box } from "@mui/material"
+import React, { useEffect, useState } from "react"
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import utfpr from "../../../assets/logos/utfpr-universidade-tecnologica-federal-do-parana-logo-6CF2B55F31-seeklogo.com.png"
 import { TextFieldUni } from "../../../components/TextFieldUni"
@@ -7,6 +7,10 @@ import { colors } from "../../../styles/colors"
 import { ButtonUni } from "../../../components/ButtonUni"
 import { api } from "../../../api"
 import { useFormik } from "formik"
+import { useSnackbar } from "burgos-snackbar"
+import { User, UserForm } from "../../../types/server/class/user"
+import { Course } from "../../../types/server/class/course"
+import { useUser } from "../../../hooks/useUser"
 
 interface SignupBoxProps {
     isFlipped: boolean
@@ -14,33 +18,72 @@ interface SignupBoxProps {
 }
 
 export const SignupBox: React.FC<SignupBoxProps> = ({ isFlipped, setIsFlipped }) => {
+    const { snackbar } = useSnackbar()
+    const { user, setUser } = useUser()
     const navigate = useNavigate()
-    const formik = useFormik({
+    const [listCourses, setListCourses] = useState<Course[]>([])
+
+    const formik = useFormik<UserForm>({
         initialValues: {
             name: "",
             image: "",
             username: "",
             email: "",
             password: "",
-            isAdmin: true,
-            student: null,
+            isAdmin: false,
+            student: {
+                period: 5,
+                courseId: null,
+            },
             admin: null,
         },
-        onSubmit: (values) => {
+        onSubmit: async (values, { resetForm }) => {
             console.log(values)
-            signup(values)
+            await signup(values)
+            resetForm()
         },
     })
 
-    const signup = async (values: any) => {
+    const signup = async (values: UserForm) => {
+        const data = {
+            ...values,
+            student: { ...values.student, period: Number(values.student.period) }, // Certifique-se de que `values.student.period` seja convertido corretamente para número aqui
+        }
         try {
-            const response = await api.post("/signup", values)
+            const response = await api.post("/signup", data)
+            snackbar({ text: "Cadastro realizado com sucesso!", severity: "success" })
             console.log(response)
-            navigate("/student")
+
+            const login = await api.post("/login", { code: values.username, password: values.password })
+            setUser(login.data)
+            console.log(login)
+            snackbar({ text: "Logado com sucesso!", severity: "success" })
+
+            if (login.data.isAdmin) {
+                navigate("/admin")
+            } else {
+                navigate("/student")
+            }
         } catch (error) {
             console.log(error)
+            snackbar({ text: "Algo deu errado! Tente novamente.", severity: "error" })
         }
     }
+
+    const fetchCourses = async () => {
+        try {
+            const response = await api.get("/course/all")
+            setListCourses(response.data)
+        } catch (error) {
+            console.log(error)
+            snackbar({ text: "Algo deu errado! Recarregue a página.", severity: "error" })
+        }
+    }
+
+    useEffect(() => {
+        fetchCourses()
+        console.log(listCourses)
+    }, [])
 
     return (
         <Box
@@ -97,11 +140,34 @@ export const SignupBox: React.FC<SignupBoxProps> = ({ isFlipped, setIsFlipped })
                             onChange={formik.handleChange}
                         />
                     </Box>
+                    <FormControl fullWidth>
+                        <InputLabel id="campus-select-label">Curso</InputLabel>
+                        <Select
+                            labelId="campus-select-label"
+                            id="campus-select"
+                            value={formik?.values.student.courseId}
+                            onChange={(event) => {
+                                //@ts-ignore
+                                formik.setFieldValue("student.courseId", event.target.value)
+                            }}
+                            label="Curso"
+                            sx={{ borderRadius: "1vw" }}
+                        >
+                            <MenuItem value="">Selecionar Curso</MenuItem>
+                            {listCourses.map((course) => (
+                                //@ts-ignore
+                                <MenuItem key={course.id} value={course.id}>
+                                    {course.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     <TextFieldUni
                         sx={{ width: 1 }}
                         label="Período"
-                        name="period"
-                        // value={formik.values.period}
+                        name="student.period"
+                        type="number"
+                        value={formik.values.student.period}
                         onChange={formik.handleChange}
                     />
                     <p

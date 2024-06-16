@@ -37,7 +37,11 @@ export const LoginBox: React.FC<LoginBoxProps> = ({ isFlipped, setIsFlipped }) =
             setUser(response.data)
             console.log(response)
             snackbar({ text: "Logado com sucesso!", severity: "success" })
-            navigate("/admin")
+            if (response.data?.isAdmin) {
+                navigate("/admin")
+            } else {
+                navigate("/student")
+            }
         } catch (error) {
             snackbar({ text: "Algo deu errado! Verifique suas credenciais", severity: "error" })
             console.log(error)

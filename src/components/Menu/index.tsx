@@ -2,7 +2,16 @@ import React from "react"
 import { useState } from "react"
 import { Group, Code } from "@mantine/core"
 import utfpr from "../../assets/logos/utfpr-universidade-tecnologica-federal-do-parana-logo-6CF2B55F31-seeklogo.com.png"
-import { IconBooks, IconHours24, IconLogout, IconUser, IconHome, IconSchool, IconUsers } from "@tabler/icons-react"
+import {
+    IconBooks,
+    IconHours24,
+    IconLogout,
+    IconUser,
+    IconHome,
+    IconSchool,
+    IconUsers,
+    IconTrack,
+} from "@tabler/icons-react"
 import { GrGroup } from "react-icons/gr"
 import classes from "./NavbarSimple.module.css"
 import { Box } from "@mui/material"
@@ -21,6 +30,7 @@ const dataAdmin = [
     { link: "/admin/init", label: "Início", icon: IconHome },
     { link: "/admin/materias", label: "Disciplinas", icon: IconBooks },
     { link: "/admin/courses", label: "Cursos", icon: IconSchool },
+    { link: "/admin/trails", label: "Trilhas", icon: IconTrack },
     { link: "/admin/students", label: "Estudantes", icon: IconUsers },
 ]
 
@@ -28,7 +38,7 @@ interface MenuProps {}
 
 export const Menu: React.FC<MenuProps> = ({}) => {
     const [active, setActive] = useState("Billing")
-    const { user } = useUser()
+    const { user, setUser } = useUser()
     const navigate = useNavigate()
     const links = user?.isAdmin
         ? dataAdmin.map((item) => (
@@ -94,7 +104,12 @@ export const Menu: React.FC<MenuProps> = ({}) => {
                     <IconUser className={classes.linkIcon} stroke={1.5} />
                     <span>Minha Conta</span>
                 </a>
-                <p className={classes.link} onClick={() => navigate("/auth")}>
+                <p
+                    className={classes.link}
+                    onClick={() => {
+                        setUser(null)
+                    }}
+                >
                     <IconLogout className={classes.linkIcon} stroke={1.5} />
                     <span>Sair</span>
                 </p>

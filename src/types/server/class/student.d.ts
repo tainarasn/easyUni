@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client"
+import { Course } from "./course"
 
 export declare const userInclusions: {
     student: {
@@ -11,18 +12,14 @@ export declare const userInclusions: {
     admin: { include: { user: true } }
 }
 export type UserPrisma = Prisma.UserGetPayload<{ include: typeof userInclusions }>
-export type UserForm = Omit<WithoutFunctions<User>, "id">
-export type PartialUser = Partial<User> & { id: number }
+export type StudentForm = Omit<WithoutFunctions<Student>, "id">
+export type PartialStudent = Partial<Student> & { id: number }
 
-export class User {
+export class Student {
     id: number
-    name: string
-    email: string
-    image: string | null
-    username: string
-    password: string
-    student: Student | null
-    admin: Admin | null
+    period: number
+    course?: Course
+    courseId: number
 
     constructor(userPrisma?: UserPrisma)
     static async signup(data: UserForm): Promise<User>

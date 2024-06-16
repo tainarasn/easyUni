@@ -2,6 +2,7 @@ import { Admin, Prisma, Student } from "@prisma/client"
 import { WithoutFunctions } from "./helpers"
 import { prisma } from "../prisma"
 import { LoginForm } from "../types/shared/login"
+import { StudentForm } from "./student"
 
 export declare const userInclusions: {
     student: {
@@ -18,7 +19,9 @@ export declare const userInclusions: {
 export type UserPrisma = Prisma.UserGetPayload<{ include: typeof userInclusions }>
 
 //front-end types
-export type UserForm = Omit<WithoutFunctions<User>, "id">
+export type UserForm = Omit<WithoutFunctions<User>, "id"> & {
+    student: StudentForm
+}
 
 //update user type
 export type PartialUser = Partial<User> & { id: number }
@@ -30,7 +33,7 @@ export class User {
     image: string | null
     username: string
     password: string
-    student: Student | null
+    student: StudentForm | null
     admin: Admin | null
     isAdmin: boolean
 

@@ -24,7 +24,9 @@ export const HeaderUni: React.FC<HeaderUniProps> = ({}) => {
             >
                 <Box sx={{ flexDirection: "column", alignItems: "end" }}>
                     <p style={{ color: colors.black3 }}>{user?.name}</p>
-                    <p style={{ color: colors.black3 }}>{user?.isAdmin ? "Administração" : user?.student.period + "º"}</p>
+                    <p style={{ color: colors.black3 }}>
+                        {user?.isAdmin ? "Administração" : user?.student?.period + "° período"}
+                    </p>
                 </Box>
                 <Avatar sx={{ width: "2.5vw", height: "2.5vw" }} />
             </Box>
