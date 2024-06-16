@@ -12,9 +12,9 @@ export const Admin: React.FC<StudentProps> = ({ user }) => {
         <ReactRoutes>
             <Route index element={<PanelAdmin location="init" />} />
             <Route path="/init" element={<PanelAdmin location="init" />} />
-            {/* <Route path="/materias" element={<PanelStudent location="materias" />} />
-            <Route path="/ranking" element={<PanelStudent location="ranking" />} />
-            <Route path="/atividades" element={<PanelStudent location="atividades" />} /> */}
+            <Route path="/materias" element={<PanelAdmin location="materias" />} />
+            <Route path="/courses" element={<PanelAdmin location="courses" />} />
+            <Route path="/students" element={<PanelAdmin location="student" />} />
             <Route path="/account" element={<PanelAdmin location="account" />} />
         </ReactRoutes>
     )

@@ -5,10 +5,13 @@ import { colors } from "../../../../styles/colors"
 import { Resume } from "../../../../components/Resume"
 import { TextFieldUni } from "../../../../components/TextFieldUni"
 import { ButtonUni } from "../../../../components/ButtonUni"
+import { User } from "../../../../types/server/class/user"
 
-interface AccountProps {}
+interface AccountProps {
+    user: User
+}
 
-export const Account: React.FC<AccountProps> = ({}) => {
+export const Account: React.FC<AccountProps> = ({ user }) => {
     return (
         <Box sx={{ width: 1, height: 1, flexDirection: "column", gap: "0.8vw" }}>
             <TitleUni title="Minha Conta" />

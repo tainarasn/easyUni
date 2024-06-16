@@ -24,6 +24,7 @@ import { Theme } from "@emotion/react"
 import { useSnackbar } from "burgos-snackbar"
 import { api } from "../../api"
 import { MdOutlineDeleteOutline } from "react-icons/md"
+import { ModalDelete } from "./ModalDelete"
 
 interface ModalUpdateMateriaProps {
     open: boolean
@@ -56,6 +57,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
     const theme = useTheme()
     const { snackbar } = useSnackbar()
     const [loading, setLoading] = useState(false)
+    const [openDelete, setOpenDelete] = useState(false)
     const [selectedMateriaCodes, setSelectedMateriaCodes] = useState<string[]>([])
     const formik = useFormik<PartialMateria>({
         initialValues: {
@@ -100,6 +102,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
             const response = (await api.get(`/materia/delete?id=${Number(materia.id)}`)) as Materia
             snackbar({ text: "Matéria excluída!", severity: "success" })
             fetchMaterias()
+            setOpen(false)
             return response
         } catch (error) {
             console.log(error)
@@ -239,7 +242,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                             <ButtonUni
                                 variant="outlined"
                                 sx={{ width: 0.5, fontSize: "0.9rem", alignSelf: "end", bgcolor: "#fff" }}
-                                onClick={handleDelete}
+                                onClick={() => setOpenDelete(true)}
                             >
                                 <MdOutlineDeleteOutline size={"1vw"} />
                                 Excluir
@@ -253,6 +256,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                             </ButtonUni>
                         </Box>
                     </Box>
+                    <ModalDelete click={handleDelete} open={openDelete} setOpen={setOpenDelete} />
                 </Box>
             </Fade>
         </Modal>

@@ -85,7 +85,7 @@ export const Menu: React.FC<MenuProps> = ({}) => {
 
             <Box className={classes.footer} sx={{ flexDirection: "column", gap: "1.2vw" }}>
                 <a
-                    href={user?.isAdmin ? "/admin/account" : "/student/account"}
+                    href={""}
                     className={classes.link}
                     onClick={() => {
                         navigate(user?.isAdmin ? "/admin/account" : "/student/account")

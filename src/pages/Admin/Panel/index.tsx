@@ -5,6 +5,10 @@ import { HeaderUni } from "../../../components/HeaderUni"
 import { BiSupport } from "react-icons/bi"
 import { ModalSupport } from "../../../components/Support/ModalSupport"
 import { colors } from "../../../styles/colors"
+import { Account } from "./Account"
+import { HomeStudent } from "../../Student/Panel/HomeStudent"
+import { useUser } from "../../../hooks/useUser"
+import { Materias } from "./Materias"
 
 interface PanelAdminProps {
     location: string
@@ -13,6 +17,7 @@ interface PanelAdminProps {
 export const PanelAdmin: React.FC<PanelAdminProps> = ({ location }) => {
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
+    const { user } = useUser()
     return (
         <Box sx={{ width: 1, height: 1, alignItems: "center", justifyContent: "center", p: "2vw" }}>
             <Box
@@ -46,17 +51,16 @@ export const PanelAdmin: React.FC<PanelAdminProps> = ({ location }) => {
                             flexDirection: "column",
                         }}
                     >
-                        {/* {location == "init" ? (
+                        {location == "init" ? (
                             <HomeStudent />
                         ) : location == "materias" ? (
                             <Materias />
-                        ) : location == "ranking" ? (
-                            <Ranking />
-                        ) : location == "account" ? (
-                            <Account />
                         ) : (
-                            location == "atividades" && <Atividades />
-                        )} */}
+                            // ) : location == "courses" ? (
+                            //     <Ranking />
+                            location == "account" && user && <Account user={user} />
+                        )}
+
                         <IconButton
                             sx={{ bgcolor: colors.black3, position: "fixed", bottom: "4vw", right: "4vw", p: "1vw" }}
                             onClick={handleOpen}
