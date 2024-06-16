@@ -11,7 +11,6 @@ import { MateriaCard } from "../../../../components/admin/MateriaCard"
 import { IoMdAdd } from "react-icons/io"
 import { ModalUpdateMateria } from "../../../../components/admin/ModalUpdateMateria"
 import { Course } from "../../../../types/server/class/course"
-import { Courses } from "../Courses"
 
 interface MateriasProps {}
 

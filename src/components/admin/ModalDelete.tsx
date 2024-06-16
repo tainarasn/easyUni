@@ -1,29 +1,7 @@
 import React, { useState } from "react"
-import {
-    Box,
-    Chip,
-    Divider,
-    Modal,
-    Backdrop,
-    Fade,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    OutlinedInput,
-    Select,
-    SelectChangeEvent,
-} from "@mui/material"
+import { Box, Divider, Modal, Backdrop, Fade } from "@mui/material"
 import { colors } from "../../styles/colors"
-import { TextFieldUni } from "../TextFieldUni"
 import { ButtonUni } from "../ButtonUni"
-import Logo from "../../assets/logos/logo_completa (1).png"
-import { Materia, MateriaForm, PartialMateria } from "../../types/server/class/materia"
-import { FormikErrors, FormikState, FormikTouched, useFormik } from "formik"
-import { useTheme } from "@mui/material/styles"
-import { Theme } from "@emotion/react"
-import { useSnackbar } from "burgos-snackbar"
-import { api } from "../../api"
-import { MdOutlineDeleteOutline } from "react-icons/md"
 
 interface ModalDeleteProps {
     open: boolean

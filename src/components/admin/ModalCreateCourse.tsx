@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import {
     Box,
     Chip,
@@ -9,16 +9,13 @@ import {
     CircularProgress,
     FormControl,
     InputLabel,
-    Autocomplete,
     MenuItem,
     Select,
 } from "@mui/material"
 import { colors } from "../../styles/colors"
 import { TextFieldUni } from "../TextFieldUni"
 import { ButtonUni } from "../ButtonUni"
-import Logo from "../../assets/logos/logo_completa (1).png"
 import { FormikErrors, FormikState, FormikTouched } from "formik"
-import { useTheme } from "@mui/material/styles"
 import { Theme } from "@emotion/react"
 import { CourseForm } from "../../types/server/class/course"
 import { utfprCampi } from "../../hooks/useCampi"

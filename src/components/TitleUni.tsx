@@ -1,8 +1,7 @@
 import { Box, CircularProgress } from "@mui/material"
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { ButtonUni } from "./ButtonUni"
 import { GrUpdate } from "react-icons/gr"
-import { IconType } from "react-icons/lib"
 
 interface TitleUniProps {
     title: string

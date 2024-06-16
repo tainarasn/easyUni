@@ -16,7 +16,6 @@ import {
 import { colors } from "../../styles/colors"
 import { TextFieldUni } from "../TextFieldUni"
 import { ButtonUni } from "../ButtonUni"
-import Logo from "../../assets/logos/logo_completa (1).png"
 import { Materia, MateriaForm } from "../../types/server/class/materia"
 import { FormikErrors, FormikState, FormikTouched } from "formik"
 import { useTheme } from "@mui/material/styles"
