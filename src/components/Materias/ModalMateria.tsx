@@ -3,9 +3,11 @@ import { Box, Chip, Divider, Modal } from "@mui/material"
 import Fade from "@mui/material/Fade"
 import Backdrop from "@mui/material/Backdrop"
 import { colors } from "../../styles/colors"
+import { Materia } from "../../types/server/class/materia"
+import { ButtonUni } from "../ButtonUni"
 
 interface ModalMateriaProps {
-    materia: any
+    materia: Materia
     open: boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -14,7 +16,7 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "20%",
+    width: "40%",
     height: "fit-content",
     bgcolor: "background.paper",
     boxShadow: 24,
@@ -61,7 +63,7 @@ export const ModalMateria: React.FC<ModalMateriaProps> = ({ open, setOpen, mater
                             <p style={{ fontWeight: "bold" }}>{materia.period}º</p>
                         </Box>
                         <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between", flexDirection: "row" }}>
-                            <p style={{}}>Total de horas:</p>
+                            <p style={{}}>Carga horária:</p>
                             <p style={{ fontWeight: "bold" }}>{materia.totalHours}h</p>
                         </Box>
                     </Box>
@@ -69,18 +71,12 @@ export const ModalMateria: React.FC<ModalMateriaProps> = ({ open, setOpen, mater
                     <Box sx={{ width: 1, justifyContent: "space-between", flexDirection: "column", gap: "0.5vw" }}>
                         <p style={{ fontSize: "1.1rem", fontWeight: "bold" }}>Pré-Requisitos</p>
                         <Box sx={{ width: 1, justifyContent: "space-between", flexDirection: "column", gap: "0.3vw" }}>
-                            <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
-                                <p>Programação I</p>
-                                <Chip label={materia.code} sx={{}} />
-                            </Box>
-                            <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
-                                <p>Banco de Dados</p>
-                                <Chip label={materia.code} sx={{}} />
-                            </Box>
-                            <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
-                                <p>Programação I</p>
-                                <Chip label={materia.code} sx={{}} />
-                            </Box>
+                            {materia.prerequisites.map((item) => (
+                                <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
+                                    <p>{item.name}</p>
+                                    <Chip label={item.code} sx={{}} />
+                                </Box>
+                            ))}
                         </Box>
                     </Box>
                 </Box>

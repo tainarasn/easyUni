@@ -3,16 +3,16 @@ import { WithoutFunctions } from "./helpers"
 import { prisma } from "../prisma"
 import { LoginForm } from "../types/shared/login"
 
-export const userInclusions = Prisma.validator<Prisma.UserInclude>()({
+export declare const userInclusions: {
     student: {
         include: {
-            user: true,
-            atividades: true,
-            course: { include: { materias: true, students: true, trilhas: true } },
-        },
-    },
-    admin: { include: { user: true } },
-})
+            user: true
+            atividades: true
+            course: { include: { materias: true; students: true; trilhas: true } }
+        }
+    }
+    admin: { include: { user: true } }
+}
 
 //prisma table
 export type UserPrisma = Prisma.UserGetPayload<{ include: typeof userInclusions }>

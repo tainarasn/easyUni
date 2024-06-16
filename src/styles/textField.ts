@@ -6,22 +6,21 @@ export const style_textfield = {
         // Removendo a propriedade border
     },
     "& .MuiInputLabel-root ": {
-        color: "#ECE6F0",
+        color: "#CFC2D8",
     },
     "& .MuiOutlinedInput-root": {
         fieldset: {
             borderRadius: "1vw",
-            border: "0.5px solid #ECE6F0",
+            border: "0.5px solid #CFC2D8",
         },
     },
     "& .MuiOutlinedInput-input": {
         // height: "3vw",
     },
     "& .MuiInputBase-input.MuiOutlinedInput-input:-webkit-autofill": {
-        "-webkit-box-shadow": ` 0 0 0 100px ${colors.secondary} inset`,
+        "-webkit-box-shadow": `0 0 0 100px ${colors.secondary} inset`,
         borderRadius: "1vw",
-        color: "#fff",
-        bgcolor: "",
+        "-webkit-text-fill-color": "black", // Cor do texto
     },
 }
 

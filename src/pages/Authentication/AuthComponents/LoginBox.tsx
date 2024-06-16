@@ -10,6 +10,7 @@ import { api } from "../../../api"
 import { LoginForm } from "../../../types/shared/login"
 import { useUser } from "../../../hooks/useUser"
 import { User } from "../../../types/server/class/user"
+import { useSnackbar } from "burgos-snackbar"
 
 interface LoginBoxProps {
     isFlipped: boolean
@@ -18,6 +19,7 @@ interface LoginBoxProps {
 
 export const LoginBox: React.FC<LoginBoxProps> = ({ isFlipped, setIsFlipped }) => {
     const navigate = useNavigate()
+    const { snackbar } = useSnackbar()
     const { user, setUser } = useUser()
     const formik = useFormik<LoginForm>({
         initialValues: {
@@ -34,8 +36,10 @@ export const LoginBox: React.FC<LoginBoxProps> = ({ isFlipped, setIsFlipped }) =
             const response = await api.post("/login", values)
             setUser(response.data)
             console.log(response)
+            snackbar({ text: "Logado com sucesso!", severity: "success" })
             navigate("/admin")
         } catch (error) {
+            snackbar({ text: "Algo deu errado! Verifique suas credenciais", severity: "error" })
             console.log(error)
         }
     }

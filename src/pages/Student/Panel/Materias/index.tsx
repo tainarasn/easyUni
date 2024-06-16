@@ -48,7 +48,7 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
     ]
     return (
         <Box sx={{ width: 1, height: 1, flexDirection: "column", gap: "0.8vw", borderRadius: 0 }}>
-            <TitleUni title="Resumo" />
+            <TitleUni title="Resumo" button />
             <Box
                 ref={scrollRef}
                 sx={{
