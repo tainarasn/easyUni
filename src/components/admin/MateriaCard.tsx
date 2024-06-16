@@ -19,7 +19,7 @@ export const MateriaCard: React.FC<MateriaCardProps> = ({ materia, setOpenUpdate
         <Box
             sx={{
                 width: 1,
-                p: "0.85vw",
+                // p: "0.85vw",
                 borderRadius: "0.5vw",
                 flexDirection: "row",
                 justifyContent: "space-between",
@@ -31,37 +31,52 @@ export const MateriaCard: React.FC<MateriaCardProps> = ({ materia, setOpenUpdate
                 // setOpen(true)
             }}
         >
-            <p
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                    setOpen(true)
-                    setMateria(materia)
+            <Box
+                sx={{
+                    bgcolor: colors.yellow,
+                    fontWeight: "Bold",
+                    height: 1,
+                    width: "2vw",
+                    borderRadius: "0.5vw 0 0 0.5vw",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1rem",
                 }}
             >
-                {materia.name}
-            </p>
-            <Box sx={{ gap: "0.5vw" }}>
-                {materia.prerequisites.map((item) => (
-                    <Tooltip
-                        title={item.name}
-                        children={
-                            <Chip
-                                label={item.code}
-                                sx={{ bgcolor: colors.terciary, fontSize: "0.9rem", cursor: "pointer" }}
-                            />
-                        }
-                    />
-                ))}
-                <Chip label={materia.code} sx={{ bgcolor: colors.yellow, fontSize: "0.9rem" }} />
-
-                <IconButton
+                {materia.period}°
+            </Box>
+            <Box sx={{ p: "0.85vw", width: 1, justifyContent: "space-between", alignItems: "center" }}>
+                <p
+                    style={{ cursor: "pointer" }}
                     onClick={() => {
+                        setOpen(true)
                         setMateria(materia)
-                        setOpenUpdate(true)
                     }}
                 >
-                    <CiEdit />
-                </IconButton>
+                    {materia.name}
+                </p>
+                <Box sx={{ gap: "0.5vw" }}>
+                    {materia.prerequisites.map((item) => (
+                        <Tooltip
+                            title={item.name}
+                            children={
+                                <Chip
+                                    label={item.code}
+                                    sx={{ bgcolor: colors.terciary, fontSize: "0.9rem", cursor: "pointer" }}
+                                />
+                            }
+                        />
+                    ))}
+                    <Chip label={materia.code} sx={{ bgcolor: colors.yellow, fontSize: "0.9rem" }} />
+                    <IconButton
+                        onClick={() => {
+                            setMateria(materia)
+                            setOpenUpdate(true)
+                        }}
+                    >
+                        <CiEdit />
+                    </IconButton>
+                </Box>
             </Box>
             <ModalMateria materia={materia} open={open} setOpen={setOpen} />
         </Box>

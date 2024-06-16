@@ -146,9 +146,20 @@ export const ModalCreateMateria: React.FC<ModalCreateMateriaProps> = ({ open, se
                                 value={formik.values.totalHours}
                                 onChange={formik.handleChange}
                                 sx={{ width: 1 }}
+                                required
                             />
                         </Box>
-                        <FormControl sx={{ m: 1, width: "100%" }}>
+                        <TextFieldUni
+                            select
+                            label="Curso"
+                            name="course"
+                            value={formik.values.course}
+                            onChange={formik.handleChange}
+                            sx={{ width: 1 }}
+                            required
+                        />
+
+                        <FormControl sx={{ width: "100%" }}>
                             <InputLabel id="demo-multiple-chip-label">Pré-Requisitos</InputLabel>
                             <Select
                                 labelId="demo-multiple-chip-label"

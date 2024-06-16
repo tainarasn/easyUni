@@ -212,6 +212,15 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                                 sx={{ width: 1 }}
                             />
                         </Box>
+                        <TextFieldUni
+                            select
+                            label="Curso"
+                            name="course"
+                            value={formik.values.course}
+                            onChange={formik.handleChange}
+                            sx={{ width: 1 }}
+                            required
+                        />
                         <FormControl sx={{ m: 1, width: "100%" }}>
                             <InputLabel id="demo-multiple-chip-label">Pré-Requisitos</InputLabel>
                             <Select
@@ -232,15 +241,20 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                                 MenuProps={MenuProps}
                                 sx={{ borderRadius: "1vw", p: "" }}
                             >
-                                {materias.map((materia) => (
-                                    <MenuItem
-                                        key={materia.code}
-                                        value={materia.code}
-                                        style={getStyles(materia.name, selectedMateriaCodes, theme)}
-                                    >
-                                        {materia.name}
-                                    </MenuItem>
-                                ))}
+                                {materias
+                                    //@ts-ignore
+                                    .filter((m) => m.period < formik.values.period)
+                                    .map((materia) => (
+                                        <MenuItem
+                                            key={materia.code}
+                                            value={materia.code}
+                                            style={getStyles(materia.name, selectedMateriaCodes, theme)}
+                                            //@ts-ignore
+                                            disabled={materia.period >= formik.values.period}
+                                        >
+                                            {materia.name}
+                                        </MenuItem>
+                                    ))}
                             </Select>
                         </FormControl>
                     </Box>
