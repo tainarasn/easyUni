@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
     Box,
     Chip,
@@ -57,8 +57,14 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
     const theme = useTheme()
     const { snackbar } = useSnackbar()
     const [loading, setLoading] = useState(false)
-    const [openDelete, setOpenDelete] = useState(false)
     const [selectedMateriaCodes, setSelectedMateriaCodes] = useState<string[]>([])
+
+    useEffect(() => {
+        if (materia.prerequisites) {
+            setSelectedMateriaCodes(materia.prerequisites.map((m) => m.code))
+        }
+    }, [materia])
+
     const formik = useFormik<PartialMateria>({
         initialValues: {
             id: materia.id,
@@ -67,8 +73,8 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
             totalHours: materia.totalHours,
             period: materia.period,
             periodRequire: materia.periodRequire,
-            prerequisites: [],
-            requiredBy: [],
+            prerequisites: materia.prerequisites || [],
+            requiredBy: materia.requiredBy || [],
             course: materia.course,
             trilha: materia.trilha,
         },
@@ -84,11 +90,12 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
         },
         enableReinitialize: true,
     })
+
     const handleUpdate = async (values: PartialMateria) => {
         if (loading) return
         try {
             console.log({ AQUI: values })
-            const response = (await api.post("/materia/update", values)) as Materia
+            const response = (await api.patch("/materia/update", values)) as Materia
             snackbar({ text: "Matéria atualizada!", severity: "success" })
             return response
         } catch (error) {
@@ -97,18 +104,6 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
         }
     }
 
-    const handleDelete = async () => {
-        try {
-            const response = (await api.get(`/materia/delete?id=${Number(materia.id)}`)) as Materia
-            snackbar({ text: "Matéria excluída!", severity: "success" })
-            fetchMaterias()
-            setOpen(false)
-            return response
-        } catch (error) {
-            console.log(error)
-            snackbar({ text: "Algo deu errado! Tente novamente.", severity: "error" })
-        }
-    }
     const handleMateriaChange = (event: SelectChangeEvent<string[]>) => {
         const {
             target: { value },
@@ -127,6 +122,19 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
         setOpen(false)
     }
 
+    const [openDelete, setOpenDelete] = useState(false)
+    const handleDelete = async () => {
+        try {
+            const response = (await api.get(`/materia/delete?id=${Number(materia.id)}`)) as Materia
+            snackbar({ text: "Matéria excluída!", severity: "success" })
+            fetchMaterias()
+            setOpen(false)
+            return response
+        } catch (error) {
+            console.log(error)
+            snackbar({ text: "Algo deu errado! Tente novamente.", severity: "error" })
+        }
+    }
     return (
         <Modal
             aria-labelledby="transition-modal-title"
@@ -198,7 +206,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                             />
                             <TextFieldUni
                                 label="Carga Horária Total"
-                                name="periodRequire"
+                                name="totalHours"
                                 value={formik.values.totalHours}
                                 onChange={formik.handleChange}
                                 sx={{ width: 1 }}
