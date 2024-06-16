@@ -77,7 +77,7 @@ export const ModalUpdateTrail: React.FC<ModalUpdateTrailProps> = ({
         try {
             const response = (await api.get(`/trail/delete?id=${Number(trail.id)}`)) as Course
             snackbar({ text: "Trilha excluída!", severity: "success" })
-            fetchCourses()
+            fetchTrails()
             setOpen(false)
             return response
         } catch (error) {
@@ -261,6 +261,7 @@ export const ModalUpdateTrail: React.FC<ModalUpdateTrailProps> = ({
                                 </ButtonUni>
                             </Box>
                         </Box>
+                        <ModalDelete open={openDelete} setOpen={setOpenDelete} click={handleDelete} />
                     </Box>
                 </Box>
             </Fade>
