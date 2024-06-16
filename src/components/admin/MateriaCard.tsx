@@ -46,15 +46,18 @@ export const MateriaCard: React.FC<MateriaCardProps> = ({ materia, setOpenUpdate
                 {materia.period}°
             </Box>
             <Box sx={{ p: "0.85vw", width: 1, justifyContent: "space-between", alignItems: "center" }}>
-                <p
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                        setOpen(true)
-                        setMateria(materia)
-                    }}
-                >
-                    {materia.name}
-                </p>
+                <Box sx={{ flexDirection: "column" }}>
+                    <p
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                            setOpen(true)
+                            setMateria(materia)
+                        }}
+                    >
+                        {materia.name}
+                    </p>
+                    <p style={{ fontSize: "0.8rem", fontWeight: "600" }}>{materia.course && materia.course.name}</p>
+                </Box>
                 <Box sx={{ gap: "0.5vw" }}>
                     {materia.prerequisites.map((item) => (
                         <Tooltip
