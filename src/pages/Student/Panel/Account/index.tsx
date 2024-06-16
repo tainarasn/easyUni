@@ -1,14 +1,72 @@
-import React from "react"
-import { Box } from "@mui/material"
+import React, { useEffect, useState } from "react"
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import { TitleUni } from "../../../../components/TitleUni"
 import { colors } from "../../../../styles/colors"
 import { Resume } from "../../../../components/Resume"
 import { TextFieldUni } from "../../../../components/TextFieldUni"
 import { ButtonUni } from "../../../../components/ButtonUni"
+import { useUser } from "../../../../hooks/useUser"
+import { useFormik } from "formik"
+import { PartialUser, User } from "../../../../types/server/class/user"
+import { api } from "../../../../api"
+import { useSnackbar } from "burgos-snackbar"
+import { Course } from "../../../../types/server/class/course"
 
-interface AccountProps {}
+interface AccountProps {
+    user: User
+}
 
-export const Account: React.FC<AccountProps> = ({}) => {
+export const Account: React.FC<AccountProps> = ({ user }) => {
+    const { setUser } = useUser()
+    const { snackbar } = useSnackbar()
+    const [listCourses, setListCourses] = useState<Course[]>([])
+
+    const formik = useFormik<PartialUser>({
+        initialValues: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            username: user.username,
+            image: user.image,
+            password: user.password,
+            isAdmin: user.isAdmin,
+            student: {
+                period: user.student?.period,
+                couseId: user.student?.courseId,
+            },
+            admin: user.admin,
+        },
+        onSubmit: async (values) => {
+            await handleUpdate(values)
+        },
+    })
+
+    const handleUpdate = async (values: PartialUser) => {
+        try {
+            const response = await api.patch("/user/update", values)
+            setUser(response.data)
+            snackbar({ text: "Dados atualizados com sucesso!", severity: "success" })
+            console.log(response)
+        } catch (error) {
+            snackbar({ text: "Algo deu errado! Tente novamente mais tarde.", severity: "error" })
+            console.log(error)
+        }
+    }
+
+    const fetchCourses = async () => {
+        try {
+            const response = await api.get("/course/all")
+            setListCourses(response.data)
+        } catch (error) {
+            console.log(error)
+            snackbar({ text: "Algo deu errado! Recarregue a página.", severity: "error" })
+        }
+    }
+
+    useEffect(() => {
+        fetchCourses()
+        console.log(listCourses)
+    }, [])
     return (
         <Box sx={{ width: 1, height: 1, flexDirection: "column", gap: "0.8vw" }}>
             <TitleUni title="Minha Conta" />
@@ -38,7 +96,7 @@ export const Account: React.FC<AccountProps> = ({}) => {
             >
                 <Box
                     sx={{
-                        width: "75%",
+                        width: "98%",
                         height: "100%",
                         borderRadius: "1vw",
                         pt: "0.2vw",
@@ -47,28 +105,88 @@ export const Account: React.FC<AccountProps> = ({}) => {
                         pl: "0.5vw",
                     }}
                 >
-                    <Box sx={{ width: 1, gap: "0.8vw" }}>
-                        <TextFieldUni sx={{ width: "70%" }} label="Nome Completo" />
-                        <TextFieldUni sx={{ width: "30%" }} label="Data de Nascimento" placeholder="dd/mm/aaaa" />
-                    </Box>
-                    <TextFieldUni sx={{ width: "100%" }} label="E-mail Institucional" />
-                    <Box sx={{ width: 1, gap: "0.8vw" }}>
-                        <TextFieldUni sx={{ width: "50%" }} label="Nome de usuário" type="email" />
-                        <TextFieldUni sx={{ width: "50%" }} label="Senha" type="password" />
-                    </Box>
-                    <Box sx={{ width: 1, gap: "0.8vw" }}>
-                        <TextFieldUni sx={{ width: "50%" }} label="Curso" type="email" />
-                        <TextFieldUni sx={{ width: "50%" }} label="Período" />
-                    </Box>
-                    <Box sx={{ width: 1, gap: "0.8vw" }}>
-                        <ButtonUni
-                            variant="contained"
-                            size="small"
-                            sx={{ width: 0.2, fontSize: "0.9rem", alignSelf: "flex-end" }}
-                        >
-                            Atualizar Dados
-                        </ButtonUni>
-                    </Box>
+                    <form action="" onSubmit={formik.handleSubmit}>
+                        <Box sx={{ width: 1, gap: "0.8vw" }}>
+                            <TextFieldUni
+                                sx={{ width: "100%" }}
+                                name="name"
+                                label="Nome Completo"
+                                value={formik.values.name}
+                                onChange={formik.handleChange}
+                            />
+                        </Box>
+
+                        <Box sx={{ width: 1, gap: "0.8vw" }}>
+                            <TextFieldUni
+                                sx={{ width: "50%" }}
+                                label="Nome de usuário"
+                                name="username"
+                                value={formik.values.username}
+                                onChange={formik.handleChange}
+                            />
+                            <TextFieldUni
+                                sx={{ width: "50%" }}
+                                label="Senha"
+                                name="password"
+                                value={formik.values.password}
+                                type="password"
+                                onChange={formik.handleChange}
+                            />
+                        </Box>
+                        <Box sx={{ width: 1, gap: "0.8vw" }}>
+                            <TextFieldUni
+                                sx={{ width: "100%" }}
+                                label="E-mail Institucional"
+                                name="email"
+                                type="email"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                disabled
+                            />
+                            <TextFieldUni
+                                sx={{ width: "50%" }}
+                                label="Período"
+                                name="student.period"
+                                type="number"
+                                value={formik.values.student?.period}
+                                onChange={formik.handleChange}
+                            />
+                        </Box>
+                        {/* <FormControl fullWidth>
+                            <InputLabel id="campus-select-label">Curso</InputLabel>
+                            <Select
+                                disabled
+                                labelId="campus-select-label"
+                                id="campus-select"
+                                value={formik?.values.student?.courseId}
+                                onChange={(event) => {
+                                    //@ts-ignore
+                                    formik.setFieldValue("student.courseId", event.target.value)
+                                }}
+                                label="Curso"
+                                sx={{ borderRadius: "1vw" }}
+                            >
+                                <MenuItem value="">Selecionar Curso</MenuItem>
+                                {listCourses.map((course) => (
+                                    //@ts-ignore
+                                    <MenuItem key={course.id} value={course.id}>
+                                        {course.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl> */}
+
+                        <Box sx={{ width: 1, gap: "0.8vw" }}>
+                            <ButtonUni
+                                type="submit"
+                                variant="contained"
+                                size="small"
+                                sx={{ width: 0.2, fontSize: "0.9rem", alignSelf: "flex-end" }}
+                            >
+                                Atualizar Dados
+                            </ButtonUni>
+                        </Box>
+                    </form>
                 </Box>
                 <Resume />
             </Box>

@@ -1,10 +1,6 @@
 import React, { useState } from "react"
-import { Box, Chip, IconButton, Tooltip } from "@mui/material"
-import { Materia } from "../../types/server/class/materia"
+import { Box, Chip } from "@mui/material"
 import { colors } from "../../styles/colors"
-import { ModalMateria } from "../Materias/ModalMateria"
-import { CiEdit } from "react-icons/ci"
-import { FaRegEye } from "react-icons/fa"
 import { User } from "../../types/server/class/user"
 
 interface UserCardProps {
@@ -12,8 +8,6 @@ interface UserCardProps {
 }
 
 export const UserCard: React.FC<UserCardProps> = ({ user }) => {
-    const [open, setOpen] = useState(false)
-
     return (
         <Box
             sx={{
@@ -42,21 +36,14 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
                     fontSize: "1rem",
                 }}
             >
-                6°
+                {user.student?.period}°
             </Box>
             <Box sx={{ p: "0.65vw", width: 1, justifyContent: "space-between", alignItems: "center" }}>
                 <Box sx={{ flexDirection: "column" }}>
-                    <p
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                            setOpen(true)
-                        }}
-                    >
-                        {user.name}
-                    </p>
+                    <p style={{ cursor: "pointer" }}>{user.name}</p>
                 </Box>
                 <Box sx={{ gap: "0.5vw" }}>
-                    <Chip label={user.email} sx={{ bgcolor: colors.yellow, fontSize: "0.9rem" }} />
+                    <Chip label={user.student?.course.name} sx={{ bgcolor: colors.yellow, fontSize: "0.9rem" }} />
                 </Box>
             </Box>
         </Box>

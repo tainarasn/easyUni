@@ -7,15 +7,17 @@ import { Materias } from "./Materias"
 import { Ranking } from "./Ranking"
 import { Atividades } from "./Atividades"
 import { colors } from "../../../styles/colors"
-import { Account } from "./Account"
 import { BiSupport } from "react-icons/bi"
 import { ModalSupport } from "../../../components/Support/ModalSupport"
+import { User } from "../../../types/server/class/user"
+import { Account } from "./Account"
 
 interface PanelStudentProps {
     location: string
+    user: User
 }
 
-export const PanelStudent: React.FC<PanelStudentProps> = ({ location }) => {
+export const PanelStudent: React.FC<PanelStudentProps> = ({ location, user }) => {
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     return (
@@ -29,7 +31,7 @@ export const PanelStudent: React.FC<PanelStudentProps> = ({ location }) => {
                     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
                 }}
             >
-                <Menu />
+                <Menu user={user} />
                 <Box
                     sx={{
                         width: 0.9,
@@ -41,7 +43,7 @@ export const PanelStudent: React.FC<PanelStudentProps> = ({ location }) => {
                         color: colors.black3,
                     }}
                 >
-                    <HeaderUni />
+                    <HeaderUni user={user} />
                     <Box
                         sx={{
                             width: 1,
@@ -58,7 +60,7 @@ export const PanelStudent: React.FC<PanelStudentProps> = ({ location }) => {
                         ) : location == "ranking" ? (
                             <Ranking />
                         ) : location == "account" ? (
-                            <Account />
+                            <Account user={user} />
                         ) : (
                             location == "atividades" && <Atividades />
                         )}

@@ -9,12 +9,12 @@ import { Admin } from "./pages/Admin"
 
 interface RoutesProps {}
 
-const UserRoutes: React.FC<{ user: User }> = ({}) => {
+const UserRoutes: React.FC<{ user: User }> = ({ user }) => {
     // const bottomMenu = useNavigationList()
     return (
         <>
             <ReactRoutes>
-                <Route path="/student/*" element={<Student />} />
+                <Route path="/student/*" element={<Student user={user} />} />
             </ReactRoutes>
         </>
     )
@@ -35,7 +35,6 @@ const UnauthenticatedRoutes = () => (
         <Route path="/" element={<Auth />} />
         <Route path="/*" element={<Auth />} />
         <Route path="/auth" element={<Auth />} />
-        {/* <Route path="/student/*" element={<Student />} /> */}
     </ReactRoutes>
 )
 

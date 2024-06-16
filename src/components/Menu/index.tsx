@@ -12,13 +12,13 @@ import {
     IconUsers,
     IconTrack,
 } from "@tabler/icons-react"
-import { GrGroup } from "react-icons/gr"
 import classes from "./NavbarSimple.module.css"
 import { Box } from "@mui/material"
 import { colors } from "../../styles/colors"
 import { useNavigate } from "react-router-dom"
 import Logo from "../../assets/logos/favicon.png"
 import { useUser } from "../../hooks/useUser"
+import { User } from "../../types/server/class/user"
 
 const dataStudent = [
     { link: "/student/init", label: "Início", icon: IconHome },
@@ -27,18 +27,19 @@ const dataStudent = [
     { link: "/student/atividades", label: "Ativ. Complementares", icon: IconHours24 },
 ]
 const dataAdmin = [
-    { link: "/admin/init", label: "Início", icon: IconHome },
-    { link: "/admin/materias", label: "Disciplinas", icon: IconBooks },
     { link: "/admin/courses", label: "Cursos", icon: IconSchool },
+    { link: "/admin/materias", label: "Disciplinas", icon: IconBooks },
     { link: "/admin/trails", label: "Trilhas", icon: IconTrack },
     { link: "/admin/students", label: "Estudantes", icon: IconUsers },
 ]
 
-interface MenuProps {}
+interface MenuProps {
+    user: User
+}
 
-export const Menu: React.FC<MenuProps> = ({}) => {
+export const Menu: React.FC<MenuProps> = ({ user }) => {
     const [active, setActive] = useState("Billing")
-    const { user, setUser } = useUser()
+    const { setUser } = useUser()
     const navigate = useNavigate()
     const links = user?.isAdmin
         ? dataAdmin.map((item) => (
@@ -94,16 +95,20 @@ export const Menu: React.FC<MenuProps> = ({}) => {
             </Box>
 
             <Box className={classes.footer} sx={{ flexDirection: "column", gap: "1.2vw" }}>
-                <a
-                    href={""}
+                <p
                     className={classes.link}
                     onClick={() => {
-                        navigate(user?.isAdmin ? "/admin/account" : "/student/account")
+                        console.log(user)
+                        if (user.isAdmin) {
+                            navigate("/admin/account")
+                        } else {
+                            navigate("/student/account")
+                        }
                     }}
                 >
                     <IconUser className={classes.linkIcon} stroke={1.5} />
                     <span>Minha Conta</span>
-                </a>
+                </p>
                 <p
                     className={classes.link}
                     onClick={() => {

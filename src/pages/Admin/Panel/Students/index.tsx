@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from "react"
-import { Box, Pagination } from "@mui/material"
+import { Box, Chip, Pagination } from "@mui/material"
 import { TitleUni } from "../../../../components/TitleUni"
 import { useHorizontalScroll } from "../../../../hooks/useHorizontalScroll"
-import { Materia, MateriaForm } from "../../../../types/server/class/materia"
-import { useFormik } from "formik"
-import { ModalCreateMateria } from "../../../../components/admin/ModalCreateMateria"
 import { api } from "../../../../api"
 import { useSnackbar } from "burgos-snackbar"
-import { MateriaCard } from "../../../../components/admin/MateriaCard"
-import { IoMdAdd } from "react-icons/io"
-import { ModalUpdateMateria } from "../../../../components/admin/ModalUpdateMateria"
-import { Course } from "../../../../types/server/class/course"
 import { User } from "../../../../types/server/class/user"
 import { UserCard } from "../../../../components/admin/UserCard"
+import { Course } from "../../../../types/server/class/course"
+import { colors } from "../../../../styles/colors"
 
 interface StudentsProps {}
 
 export const Students: React.FC<StudentsProps> = ({}) => {
     const { snackbar } = useSnackbar()
-    const [open, setOpen] = useState(false)
-    const [openUpdate, setOpenUpdate] = useState(false)
-    const [loading, setLoading] = useState(false)
 
     const [listUsers, setUsers] = useState<User[]>([])
+    const [listCourses, setListCourses] = useState<Course[]>([])
+    const [value, setValue] = useState("")
 
     const scrollRef = useHorizontalScroll()
 
@@ -43,9 +37,20 @@ export const Students: React.FC<StudentsProps> = ({}) => {
             snackbar({ text: "Algo deu errado! Recarregue a página.", severity: "error" })
         }
     }
+    const fetchCourses = async () => {
+        try {
+            const response = await api.get("/course/all")
+            console.log(response)
+            setListCourses(response.data)
+        } catch (error) {
+            console.log(error)
+            snackbar({ text: "Algo deu errado! Recarregue a página.", severity: "error" })
+        }
+    }
 
     useEffect(() => {
         fetchUsers()
+        fetchCourses()
     }, [])
 
     return (
@@ -59,12 +64,41 @@ export const Students: React.FC<StudentsProps> = ({}) => {
                     gap: "0.7vw",
                 }}
             >
-                {listUsers
-                    .sort((a, b) => b.id - a.id)
-                    .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-                    .map((user, i) => (
-                        <UserCard key={i} user={user} />
-                    ))}
+                <Box sx={{ flexDirection: "row", gap: "0.5vw" }}>
+                    <Chip
+                        label={"Todos"}
+                        sx={{ bgcolor: colors.yellow, fontSize: "0.9rem" }}
+                        onClick={() => {
+                            setValue("")
+                        }}
+                    />
+                    {listCourses
+                        .sort((a, b) => b.id - a.id)
+                        .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                        .map((course, i) => (
+                            <Chip
+                                key={i}
+                                label={course.name}
+                                sx={{ bgcolor: colors.yellow, fontSize: "0.9rem" }}
+                                onClick={() => {
+                                    setValue(course.name)
+                                }}
+                            />
+                        ))}
+                </Box>
+
+                {value
+                    ? listUsers
+                          .filter((item) => item.student?.course.name === value)
+                          .sort((a, b) => b.id - a.id)
+                          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                          .map((user, i) => <UserCard key={i} user={user} />)
+                    : listUsers
+                          .filter((item) => item.student)
+                          .sort((a, b) => b.id - a.id)
+                          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                          .map((user, index) => <UserCard key={index} user={user} />)}
+
                 <Pagination
                     count={noOfPages}
                     onChange={handleChangePage}

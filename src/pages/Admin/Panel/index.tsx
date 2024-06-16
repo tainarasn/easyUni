@@ -1,25 +1,30 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Box, IconButton } from "@mui/material"
 import { Menu } from "../../../components/Menu"
 import { HeaderUni } from "../../../components/HeaderUni"
 import { BiSupport } from "react-icons/bi"
 import { ModalSupport } from "../../../components/Support/ModalSupport"
 import { colors } from "../../../styles/colors"
-import { Account } from "./Account"
 import { HomeStudent } from "../../Student/Panel/HomeStudent"
 import { useUser } from "../../../hooks/useUser"
 import { Materias } from "./Materias"
 import { Courses } from "./Courses"
 import { Students } from "./Students"
+import { User } from "../../../types/server/class/user"
+import { Account } from "./Account"
 
 interface PanelAdminProps {
     location: string
+    user?: User
 }
 
-export const PanelAdmin: React.FC<PanelAdminProps> = ({ location }) => {
+export const PanelAdmin: React.FC<PanelAdminProps> = ({ location, user }) => {
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
-    const { user } = useUser()
+    useEffect(() => {
+        console.log({ USER: user })
+    }, [user])
+
     return (
         <Box sx={{ width: 1, height: 1, alignItems: "center", justifyContent: "center", p: "2vw" }}>
             <Box
@@ -31,7 +36,7 @@ export const PanelAdmin: React.FC<PanelAdminProps> = ({ location }) => {
                     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
                 }}
             >
-                <Menu />
+                {user && <Menu user={user} />}
                 <Box
                     sx={{
                         width: 0.9,
@@ -43,7 +48,7 @@ export const PanelAdmin: React.FC<PanelAdminProps> = ({ location }) => {
                         color: colors.black3,
                     }}
                 >
-                    <HeaderUni />
+                    {user && <HeaderUni user={user} />}
                     <Box
                         sx={{
                             width: 1,

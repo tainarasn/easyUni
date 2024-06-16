@@ -121,8 +121,8 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
                 {listMaterias
                     .sort((a, b) => b.id - a.id)
                     .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-                    .map((materia, i) => (
-                        <MateriaCard key={i} materia={materia} setOpenUpdate={setOpenUpdate} setMateria={setMateria} />
+                    .map((materia, index) => (
+                        <MateriaCard key={index} materia={materia} setOpenUpdate={setOpenUpdate} setMateria={setMateria} />
                     ))}
                 <Pagination
                     count={noOfPages}
