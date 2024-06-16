@@ -1,0 +1,15 @@
+export const utfprCampi = [
+    { key: "AP", name: "UTFPR - Apucarana" },
+    { key: "CM", name: "UTFPR - Campo Mourão" },
+    { key: "CP", name: "UTFPR - Cornélio Procópio" },
+    { key: "CT", name: "UTFPR - Curitiba" },
+    { key: "DV", name: "UTFPR - Dois Vizinhos" },
+    { key: "FB", name: "UTFPR - Francisco Beltrão" },
+    { key: "GP", name: "UTFPR - Guarapuava" },
+    { key: "LO", name: "UTFPR - Londrina" },
+    { key: "ME", name: "UTFPR - Medianeira" },
+    { key: "PG", name: "UTFPR - Ponta Grossa" },
+    { key: "PB", name: "UTFPR - Pato Branco" },
+    { key: "SH", name: "UTFPR - Santa Helena" },
+    { key: "TO", name: "UTFPR - Toledo" },
+]

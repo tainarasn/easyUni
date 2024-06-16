@@ -259,7 +259,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                         </FormControl>
                     </Box>
                     <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
-                        <img src={Logo} style={{ width: "3vw" }} />
+                        <img src={""} style={{ width: "3vw" }} />
                         <Box sx={{ width: 0.4, gap: "0.5vw" }}>
                             <ButtonUni
                                 variant="outlined"

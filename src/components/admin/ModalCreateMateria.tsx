@@ -134,14 +134,14 @@ export const ModalCreateMateria: React.FC<ModalCreateMateriaProps> = ({ open, se
                                 required
                             />
                             <TextFieldUni
-                                label="Período Minímo"
+                                label="Período minímo"
                                 name="periodRequire"
                                 value={formik.values.periodRequire}
                                 onChange={formik.handleChange}
                                 sx={{ width: 1 }}
                             />
                             <TextFieldUni
-                                label="Carga Horária Total"
+                                label="Carga horária total"
                                 name="periodRequire"
                                 value={formik.values.totalHours}
                                 onChange={formik.handleChange}
@@ -192,7 +192,7 @@ export const ModalCreateMateria: React.FC<ModalCreateMateriaProps> = ({ open, se
                         </FormControl>
                     </Box>
                     <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
-                        <img src={Logo} style={{ width: "3vw" }} />
+                        <img src={""} style={{ width: "3vw" }} />
                         <ButtonUni
                             type="submit"
                             sx={{ width: "0.2", fontSize: "0.9rem", alignSelf: "end", gap: "0.5vw" }}

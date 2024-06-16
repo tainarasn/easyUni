@@ -9,6 +9,7 @@ import { Account } from "./Account"
 import { HomeStudent } from "../../Student/Panel/HomeStudent"
 import { useUser } from "../../../hooks/useUser"
 import { Materias } from "./Materias"
+import { Courses } from "./Courses"
 
 interface PanelAdminProps {
     location: string
@@ -55,9 +56,9 @@ export const PanelAdmin: React.FC<PanelAdminProps> = ({ location }) => {
                             <HomeStudent />
                         ) : location == "materias" ? (
                             <Materias />
+                        ) : location == "courses" ? (
+                            <Courses />
                         ) : (
-                            // ) : location == "courses" ? (
-                            //     <Ranking />
                             location == "account" && user && <Account user={user} />
                         )}
 
