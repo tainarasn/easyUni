@@ -1,9 +1,12 @@
 import React from "react"
 import { Box, Divider } from "@mui/material"
+import { User } from "../types/server/class/user"
 
-interface ResumeProps {}
+interface ResumeProps {
+    user: User
+}
 
-export const Resume: React.FC<ResumeProps> = ({}) => {
+export const Resume: React.FC<ResumeProps> = ({ user }) => {
     return (
         <Box
             sx={{
@@ -11,7 +14,7 @@ export const Resume: React.FC<ResumeProps> = ({}) => {
                 height: 1,
                 bgcolor: "#EBEBEB",
                 borderRadius: "1vw",
-                p: "2vw",
+                p: "1.5vw",
                 flexDirection: "column",
                 gap: "1vw",
             }}
@@ -20,7 +23,7 @@ export const Resume: React.FC<ResumeProps> = ({}) => {
             <Box sx={{ flexDirection: "column" }}>
                 <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <p style={{ fontSize: "1.1rem" }}>Período:</p>
-                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>6º</p>
+                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>{user.student?.period}°</p>
                 </Box>
                 <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <p style={{ fontSize: "1.1rem" }}>Curso:</p>
@@ -28,20 +31,14 @@ export const Resume: React.FC<ResumeProps> = ({}) => {
                 </Box>
                 <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <p style={{ fontSize: "1.1rem" }}>Campus:</p>
-                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Curitiba</p>
+                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>{user.student?.course.campus}</p>
                 </Box>
-                <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <p style={{ fontSize: "1.1rem" }}>Sede:</p>
-                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>Centro</p>
-                </Box>
+
                 <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <p style={{ fontSize: "1.1rem" }}>Matriz:</p>
-                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>844</p>
+                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>{user.student?.course.matriz}</p>
                 </Box>
-                <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <p style={{ fontSize: "1.1rem" }}>Trilhas:</p>
-                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>270h</p>
-                </Box>
+
                 <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <p style={{ fontSize: "1.1rem" }}>Atividades Complementares:</p>
                     <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>180h</p>
@@ -51,7 +48,7 @@ export const Resume: React.FC<ResumeProps> = ({}) => {
             <Box sx={{ flexDirection: "column" }}>
                 <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <p style={{ fontSize: "1.1rem", fontWeight: "bold" }}>Total de Horas:</p>
-                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>3460h</p>
+                    <p style={{ fontWeight: "bold", fontSize: "1.1rem" }}>{user.student?.course.totalHours}h</p>
                 </Box>
                 <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                     <p style={{ fontSize: "1.1rem", fontWeight: "bold" }}>Horas Cursadas :</p>

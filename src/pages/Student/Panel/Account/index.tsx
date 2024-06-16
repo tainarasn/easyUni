@@ -188,7 +188,7 @@ export const Account: React.FC<AccountProps> = ({ user }) => {
                         </Box>
                     </form>
                 </Box>
-                <Resume />
+                <Resume user={user} />
             </Box>
         </Box>
     )
