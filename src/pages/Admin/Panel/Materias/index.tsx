@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { Box, Chip, Pagination } from "@mui/material"
+import { Box, Pagination } from "@mui/material"
 import { TitleUni } from "../../../../components/TitleUni"
-import { useArray } from "burgos-array"
-import { colors } from "../../../../styles/colors"
 import { useHorizontalScroll } from "../../../../hooks/useHorizontalScroll"
-import { MateriaBox } from "../../../../components/Materias/MateriaBox"
-import { useUser } from "../../../../hooks/useUser"
-import { Materia, MateriaForm, PartialMateria } from "../../../../types/server/class/materia"
+import { Materia, MateriaForm } from "../../../../types/server/class/materia"
 import { useFormik } from "formik"
 import { ModalCreateMateria } from "../../../../components/admin/ModalCreateMateria"
 import { api } from "../../../../api"
@@ -14,7 +10,8 @@ import { useSnackbar } from "burgos-snackbar"
 import { MateriaCard } from "../../../../components/admin/MateriaCard"
 import { IoMdAdd } from "react-icons/io"
 import { ModalUpdateMateria } from "../../../../components/admin/ModalUpdateMateria"
-import { ModalMateria } from "../../../../components/Materias/ModalMateria"
+import { Course } from "../../../../types/server/class/course"
+import { Courses } from "../Courses"
 
 interface MateriasProps {}
 
@@ -24,6 +21,7 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
     const [openUpdate, setOpenUpdate] = useState(false)
     const [loading, setLoading] = useState(false)
     const [listMaterias, setListMaterias] = useState<Materia[]>([])
+    const [listCourses, setListCourses] = useState<Course[]>([])
     const [materia, setMateria] = useState<Materia | null>(null)
 
     const scrollRef = useHorizontalScroll()
@@ -45,6 +43,7 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
             prerequisites: [],
             requiredBy: [],
             course: null,
+            courseId: null,
             trilha: null,
             student: null,
         },
@@ -53,6 +52,7 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
                 ...values,
                 period: Number(values.period),
                 periodRequire: Number(values.periodRequire),
+                totalHours: Number(values.totalHours),
             }
             await handleSubmit(data) // Certifique-se de que handleSubmit seja uma função assíncrona que envie os dados
             fetchMaterias()
@@ -84,8 +84,19 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
         }
     }
 
+    const fetchCourses = async () => {
+        try {
+            const response = await api.get("/course/all")
+            setListCourses(response.data)
+        } catch (error) {
+            console.log(error)
+            snackbar({ text: "Algo deu errado! Recarregue a página.", severity: "error" })
+        }
+    }
+
     useEffect(() => {
         fetchMaterias()
+        fetchCourses()
         console.log(listMaterias)
     }, [])
 
@@ -122,7 +133,13 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
                     page={page}
                     sx={{ mt: 2, alignSelf: "center" }}
                 />
-                <ModalCreateMateria open={open} setOpen={setOpen} formik={formik} materias={listMaterias} />
+                <ModalCreateMateria
+                    open={open}
+                    setOpen={setOpen}
+                    formik={formik}
+                    materias={listMaterias}
+                    courses={listCourses}
+                />
                 {materia && (
                     <ModalUpdateMateria
                         materia={materia}
@@ -130,6 +147,7 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
                         setOpen={setOpenUpdate}
                         materias={listMaterias}
                         fetchMaterias={fetchMaterias}
+                        courses={listCourses}
                     />
                 )}
             </Box>

@@ -25,6 +25,7 @@ import { useSnackbar } from "burgos-snackbar"
 import { api } from "../../api"
 import { MdOutlineDeleteOutline } from "react-icons/md"
 import { ModalDelete } from "./ModalDelete"
+import { Course } from "../../types/server/class/course"
 
 interface ModalUpdateMateriaProps {
     open: boolean
@@ -32,6 +33,7 @@ interface ModalUpdateMateriaProps {
     materias: Materia[]
     fetchMaterias: () => Promise<void>
     materia: Materia
+    courses: Course[]
 }
 
 const style = {
@@ -53,6 +55,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
     materias,
     fetchMaterias,
     materia,
+    courses,
 }) => {
     const theme = useTheme()
     const { snackbar } = useSnackbar()
@@ -75,7 +78,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
             periodRequire: materia.periodRequire,
             prerequisites: materia.prerequisites || [],
             requiredBy: materia.requiredBy || [],
-            course: materia.course,
+            course: materia.course ? materia.course : null,
             trilha: materia.trilha,
         },
         onSubmit: async (values, { resetForm }) => {
@@ -84,7 +87,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                 period: Number(values.period),
                 periodRequire: Number(values.periodRequire),
             }
-            await handleUpdate(data) // Certifique-se de que handleSubmit seja uma função assíncrona que envie os dados
+            await handleUpdate(data)
             fetchMaterias()
             resetForm()
         },
@@ -94,7 +97,6 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
     const handleUpdate = async (values: PartialMateria) => {
         if (loading) return
         try {
-            console.log({ AQUI: values })
             const response = (await api.patch("/materia/update", values)) as Materia
             snackbar({ text: "Matéria atualizada!", severity: "success" })
             return response
@@ -113,7 +115,6 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
 
     const handleSave = () => {
         const selectedMaterias = materias.filter((materia) => selectedMateriaCodes.includes(materia.code))
-        //@ts-ignore
         formik.setValues({
             ...formik.values,
             prerequisites: selectedMaterias,
@@ -149,15 +150,13 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                 timeout: 500,
             }}
             style={{
-                borderRadius: "0vw", // Definindo o raio da borda do modal
-                // Outras propriedades de estilo do modal podem ser adicionadas aqui
+                borderRadius: "0vw",
             }}
         >
             <Fade in={open}>
                 <Box sx={{ ...style, flexDirection: "column", borderRadius: "1.5vw", gap: "0.5vw" }} onClick={() => {}}>
                     <Box sx={{ width: 1, alignItems: "center", justifyContent: "space-between" }}>
                         <p style={{ fontSize: "1.1rem", fontWeight: "bold" }}>Editar Disciplina</p>
-
                         <Chip label={"Administração"} sx={{ bgcolor: colors.yellow, fontSize: "0.9rem" }} />
                     </Box>
                     <Divider />
@@ -212,15 +211,28 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                                 sx={{ width: 1 }}
                             />
                         </Box>
-                        <TextFieldUni
-                            select
-                            label="Curso"
-                            name="course"
-                            value={formik.values.course}
-                            onChange={formik.handleChange}
-                            sx={{ width: 1 }}
-                            required
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel id="campus-select-label">Curso</InputLabel>
+                            <Select
+                                labelId="campus-select-label"
+                                id="campus-select"
+                                value={formik.values.course ? formik.values.course.id : ""}
+                                onChange={(event) => {
+                                    const selectedCourse = courses.find((course) => course.id === event.target.value)
+                                    formik.setFieldValue("course", selectedCourse || null)
+                                }}
+                                label="Curso"
+                                sx={{ borderRadius: "1vw" }}
+                            >
+                                <MenuItem value="">Selecionar Curso</MenuItem>
+                                {courses.map((course) => (
+                                    <MenuItem key={course.id} value={course.id}>
+                                        {course.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+
                         <FormControl sx={{ m: 1, width: "100%" }}>
                             <InputLabel id="demo-multiple-chip-label">Pré-Requisitos</InputLabel>
                             <Select
@@ -259,7 +271,7 @@ export const ModalUpdateMateria: React.FC<ModalUpdateMateriaProps> = ({
                         </FormControl>
                     </Box>
                     <Box sx={{ alignItems: "center", justifyContent: "space-between" }}>
-                        <img src={""} style={{ width: "3vw" }} />
+                        <img src={Logo} style={{ width: "3vw" }} />
                         <Box sx={{ width: 0.4, gap: "0.5vw" }}>
                             <ButtonUni
                                 variant="outlined"

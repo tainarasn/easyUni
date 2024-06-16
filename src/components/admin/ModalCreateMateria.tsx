@@ -21,6 +21,7 @@ import { Materia, MateriaForm } from "../../types/server/class/materia"
 import { FormikErrors, FormikState, FormikTouched } from "formik"
 import { useTheme } from "@mui/material/styles"
 import { Theme } from "@emotion/react"
+import { Course } from "../../types/server/class/course"
 
 interface ModalCreateMateriaProps {
     open: boolean
@@ -34,6 +35,7 @@ interface ModalCreateMateriaProps {
         handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void
         resetForm: (nextState?: Partial<FormikState<MateriaForm>>) => void
     }
+    courses: Course[]
 }
 
 const style = {
@@ -49,7 +51,7 @@ const style = {
     color: colors.black3,
 }
 
-export const ModalCreateMateria: React.FC<ModalCreateMateriaProps> = ({ open, setOpen, formik, materias }) => {
+export const ModalCreateMateria: React.FC<ModalCreateMateriaProps> = ({ open, setOpen, formik, materias, courses }) => {
     const theme = useTheme()
     const [selectedMateriaCodes, setSelectedMateriaCodes] = useState<string[]>([])
 
@@ -142,22 +144,35 @@ export const ModalCreateMateria: React.FC<ModalCreateMateriaProps> = ({ open, se
                             />
                             <TextFieldUni
                                 label="Carga horária total"
-                                name="periodRequire"
+                                name="totalHours"
                                 value={formik.values.totalHours}
                                 onChange={formik.handleChange}
                                 sx={{ width: 1 }}
                                 required
                             />
                         </Box>
-                        <TextFieldUni
-                            select
-                            label="Curso"
-                            name="course"
-                            value={formik.values.course}
-                            onChange={formik.handleChange}
-                            sx={{ width: 1 }}
-                            required
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel id="campus-select-label">Curso</InputLabel>
+                            <Select
+                                labelId="campus-select-label"
+                                id="campus-select"
+                                value={formik?.values.course}
+                                onChange={(event) => {
+                                    //@ts-ignore
+                                    formik.setFieldValue("course", event.target.value)
+                                }}
+                                label="Curso"
+                                sx={{ borderRadius: "1vw" }}
+                            >
+                                <MenuItem value="">Selecionar Curso</MenuItem>
+                                {courses.map((course) => (
+                                    //@ts-ignore
+                                    <MenuItem key={course.id} value={course}>
+                                        {course.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
 
                         <FormControl sx={{ width: "100%" }}>
                             <InputLabel id="demo-multiple-chip-label">Pré-Requisitos</InputLabel>

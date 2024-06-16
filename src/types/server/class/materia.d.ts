@@ -23,6 +23,7 @@ export class Materia {
     prerequisites: Materia[]
     requiredBy: Materia[]
     course: Course | null
+    courseId: number | null
     trilha: Trail
     student: Student | null
 
