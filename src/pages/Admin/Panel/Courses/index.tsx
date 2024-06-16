@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Chip, Pagination } from "@mui/material"
+import { Box, Chip, Grid, Pagination } from "@mui/material"
 import { TitleUni } from "../../../../components/TitleUni"
 import { useHorizontalScroll } from "../../../../hooks/useHorizontalScroll"
 import { useFormik } from "formik"
@@ -26,7 +26,7 @@ export const Courses: React.FC<CoursesProps> = ({}) => {
 
     const scrollRef = useHorizontalScroll()
 
-    const itemsPerPage = 7
+    const itemsPerPage = 6
     const [page, setPage] = useState(1)
     const noOfPages = Math.ceil(listCourses.length / itemsPerPage)
     const handleChangePage = (event: any, value: any) => {
@@ -110,26 +110,30 @@ export const Courses: React.FC<CoursesProps> = ({}) => {
                     gap: "0.7vw",
                 }}
             >
-                {listCourses
-                    .sort((a, b) => b.id - a.id)
-                    .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-                    .map((course, i) => (
-                        <CourseCard
-                            key={i}
-                            course={course}
-                            setOpenUpdate={setOpenUpdate}
-                            setCourse={setCourse}
-                            fetchCourses={fetchCourses}
-                        />
-                    ))}
-                {/* <Pagination
+                <Grid container spacing={4}>
+                    {listCourses
+                        .sort((a, b) => b.id - a.id)
+                        .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                        .map((course, i) => (
+                            <Grid item xs={5.5}>
+                                <CourseCard
+                                    key={i}
+                                    course={course}
+                                    setOpenUpdate={setOpenUpdate}
+                                    setCourse={setCourse}
+                                    fetchCourses={fetchCourses}
+                                />
+                            </Grid>
+                        ))}
+                </Grid>
+                <Pagination
                     count={noOfPages}
                     onChange={handleChangePage}
                     color="primary"
                     variant="outlined"
                     page={page}
                     sx={{ mt: 2, alignSelf: "center" }}
-                /> */}
+                />
                 <ModalCreateCourse open={open} setOpen={setOpen} formik={formik} loading={loading} />
                 {course && (
                     <ModalUpdateCourse

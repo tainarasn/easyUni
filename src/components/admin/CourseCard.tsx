@@ -43,7 +43,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, setOpenUpdate, s
     return (
         <Box
             sx={{
-                width: 0.4,
+                width: 1,
                 hieght: 1,
                 // p: "0.85vw",
                 borderRadius: "0.5vw",
