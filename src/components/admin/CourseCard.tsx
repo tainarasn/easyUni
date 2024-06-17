@@ -10,12 +10,13 @@ import { ModalDelete } from "./ModalDelete"
 
 interface CourseCardProps {
     course: Course
-    setOpenUpdate: React.Dispatch<React.SetStateAction<boolean>>
-    setCourse: React.Dispatch<React.SetStateAction<Course | null>>
-    fetchCourses: () => Promise<void>
+    setOpenUpdate?: React.Dispatch<React.SetStateAction<boolean>>
+    setCourse?: React.Dispatch<React.SetStateAction<Course | null>>
+    fetchCourses?: () => Promise<void>
+    student?: boolean
 }
 
-export const CourseCard: React.FC<CourseCardProps> = ({ course, setOpenUpdate, setCourse, fetchCourses }) => {
+export const CourseCard: React.FC<CourseCardProps> = ({ course, setOpenUpdate, setCourse, fetchCourses, student }) => {
     const { snackbar } = useSnackbar()
     const [openDelete, setOpenDelete] = useState(false)
     const [open, setOpen] = useState(false)
@@ -32,7 +33,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, setOpenUpdate, s
         try {
             const response = await api.get(`/course/delete?id=${Number(course.id)}`)
             snackbar({ text: "Curso deletado!", severity: "success" })
-            fetchCourses()
+            fetchCourses && fetchCourses()
             setOpenDelete(false)
             return response
         } catch (error) {
@@ -44,7 +45,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, setOpenUpdate, s
         <Box
             sx={{
                 width: 1,
-                hieght: 1,
+                height: student ? "10vw" : "8vw",
                 // p: "0.85vw",
                 borderRadius: "0.5vw",
                 flexDirection: "row",
@@ -60,7 +61,8 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, setOpenUpdate, s
                 sx={{
                     bgcolor: colors.yellow,
                     fontWeight: "Bold",
-                    height: "8vw",
+                    height: student ? "10vw" : "8vw",
+
                     width: "5vw",
                     borderRadius: "0.5vw 0 0 0.5vw",
                     alignItems: "center",
@@ -83,16 +85,18 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, setOpenUpdate, s
                         style={{ cursor: "pointer" }}
                         onClick={() => {
                             setOpen(true)
-                            setCourse(course)
+                            setCourse && setCourse(course)
                         }}
                     >
                         {course.name}
                     </h3>
                     <Box sx={{ alignItems: "center" }}>
                         <Chip label={course.matriz} sx={{ bgcolor: colors.yellow, fontSize: "0.9rem" }} />
-                        <IconButton onClick={handleClick}>
-                            <BsThreeDotsVertical />
-                        </IconButton>
+                        {!student && (
+                            <IconButton onClick={handleClick}>
+                                <BsThreeDotsVertical />
+                            </IconButton>
+                        )}
                     </Box>
                 </Box>
                 <Box sx={{ flexDirection: "column", gap: "1vw" }}>
@@ -116,26 +120,28 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, setOpenUpdate, s
                         />
                     </Box>
                 </Box>
-                <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={openMenu}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                    }}
-                >
-                    <MenuItem
-                        onClick={() => {
-                            setCourse(course)
-                            setOpenUpdate(true)
-                            handleClose()
+                {!student && (
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={openMenu}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            "aria-labelledby": "basic-button",
                         }}
                     >
-                        Editar
-                    </MenuItem>
-                    <MenuItem onClick={() => setOpenDelete(true)}>Deletar</MenuItem>
-                </Menu>
+                        <MenuItem
+                            onClick={() => {
+                                setCourse && setCourse(course)
+                                setOpenUpdate && setOpenUpdate(true)
+                                handleClose()
+                            }}
+                        >
+                            Editar
+                        </MenuItem>
+                        <MenuItem onClick={() => setOpenDelete(true)}>Deletar</MenuItem>
+                    </Menu>
+                )}
                 <ModalDelete
                     click={() => {
                         handleDelete()

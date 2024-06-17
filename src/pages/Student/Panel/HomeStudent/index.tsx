@@ -1,12 +1,30 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Box, Chip, Grid } from "@mui/material"
 import { TitleUni } from "../../../../components/TitleUni"
 import { colors } from "../../../../styles/colors"
 import { Resume } from "../../../../components/Resume"
+import { CourseCard } from "../../../../components/admin/CourseCard"
+import { User } from "../../../../types/server/class/user"
+import { useUser } from "../../../../hooks/useUser"
+import { api } from "../../../../api"
+import { Activity } from "../../../../types/server/class/activity"
+import { MateriaCard } from "../../../../components/admin/MateriaCard"
+import { ActivityCard } from "../../../../components/admin/ActivityCard"
 
 interface HomeStudentProps {}
 
 export const HomeStudent: React.FC<HomeStudentProps> = ({}) => {
+    const { user } = useUser()
+    const [listActivity, setListActivity] = useState<Activity[]>([])
+
+    const fetchActivity = async () => {
+        try {
+            const response = await api.get("/activity/all")
+            setListActivity(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const materiasEngComp = [
         "Cálculo I",
         "Robótica I",
@@ -15,6 +33,11 @@ export const HomeStudent: React.FC<HomeStudentProps> = ({}) => {
         "Circuitos Digitais",
         "Robótica II",
     ]
+
+    useEffect(() => {
+        fetchActivity()
+        console.log()
+    }, [])
     return (
         <Box sx={{ width: 1, height: 1, flexDirection: "column", gap: "0.8vw" }}>
             <TitleUni title="Resumo" />
@@ -52,30 +75,7 @@ export const HomeStudent: React.FC<HomeStudentProps> = ({}) => {
                             gap: "1vw",
                         }}
                     >
-                        <Box
-                            sx={{
-                                width: 0.7,
-                                height: 1,
-                                flexDirection: "column",
-                                borderRadius: "1vw",
-                                bgcolor: "#EBEBEB",
-                                p: "1vw",
-                            }}
-                        >
-                            <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>Engenharia da Computação</p>
-                        </Box>
-                        <Box
-                            sx={{
-                                width: 0.3,
-                                height: 1,
-                                flexDirection: "column",
-                                borderRadius: "1vw",
-                                bgcolor: "#EBEBEB",
-                                p: "1vw",
-                            }}
-                        >
-                            <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>To do List</p>
-                        </Box>
+                        <CourseCard course={user?.student?.course} student />
                     </Box>
 
                     <Box
@@ -89,28 +89,12 @@ export const HomeStudent: React.FC<HomeStudentProps> = ({}) => {
                     >
                         {" "}
                         <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>Atividades Complementares</p>
-                        <Grid container spacing={2}>
-                            {materiasEngComp.map((materia, index) => (
-                                <Grid item xs={4} key={index}>
-                                    <Box
-                                        sx={{
-                                            width: 1,
-                                            height: "8vw",
-                                            borderRadius: "1vw",
-                                            p: "1vw",
-
-                                            boxShadow:
-                                                "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                                        }}
-                                    >
-                                        {materia}
-                                    </Box>
-                                </Grid>
-                            ))}
-                        </Grid>
+                        {listActivity.slice(0.4).map((item, i) => (
+                            <ActivityCard home activity={item} key={i} />
+                        ))}
                     </Box>
                 </Box>
-                <Resume />
+                {user && <Resume user={user} />}
             </Box>
         </Box>
     )
