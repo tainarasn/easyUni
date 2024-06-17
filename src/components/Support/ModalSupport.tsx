@@ -6,6 +6,7 @@ import { colors } from "../../styles/colors"
 import { TextFieldUni } from "../TextFieldUni"
 import { ButtonUni } from "../ButtonUni"
 import Logo from "../../assets/logos/logo_completa (1).png"
+import { useSnackbar } from "burgos-snackbar"
 
 interface ModalSupportProps {
     open: boolean
@@ -25,6 +26,7 @@ const style = {
 }
 
 export const ModalSupport: React.FC<ModalSupportProps> = ({ open, setOpen }) => {
+    const { snackbar } = useSnackbar()
     return (
         <Modal
             aria-labelledby="transition-modal-title"
@@ -70,6 +72,7 @@ export const ModalSupport: React.FC<ModalSupportProps> = ({ open, setOpen }) => 
                             sx={{ width: "0.2", fontSize: "0.9rem", alignSelf: "end", gap: "0.5vw" }}
                             onClick={() => {
                                 setOpen(false)
+                                snackbar({ text: "Mensagem enviada com sucesso!", severity: "success" })
                             }}
                         >
                             Enviar

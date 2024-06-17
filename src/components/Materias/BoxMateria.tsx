@@ -6,10 +6,11 @@ import { FaCheck } from "react-icons/fa"
 import { useFormik } from "formik"
 import { colors } from "../../styles/colors"
 import { listMaterias } from "../../hooks/materias"
+import { Materia } from "../../types/server/class/materia"
 
 interface BoxMateriaProps {
-    materia: any
-    onUpdateMateria?: (updatedMateria: any) => void
+    materia: Materia
+    onUpdateMateria?: (updatedMateria: Materia) => void
 }
 
 export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria }) => {
@@ -22,9 +23,7 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria
             name: materia.name || "",
             totalHours: materia.totalHours || 0,
             period: materia.period || 1,
-            active: materia.active || false,
-            viewed: materia.viewed || false,
-            requirements: materia.requirements,
+            prerequisites: materia.prerequisites,
         },
 
         onSubmit: () => {
@@ -33,7 +32,7 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria
     })
 
     // Verifica se algum dos pré-requisitos da matéria não foi cumprido
-    const hasFalseRequirements = materia.requirements.some((requirementId: any) => {
+    const hasFalseRequirements = materia.prerequisites.some((requirementId: any) => {
         const requiredMateria = listMaterias.find((m) => m.id === requirementId)
         return requiredMateria && !requiredMateria.active
     })
@@ -45,8 +44,8 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria
     }, [hasFalseRequirements, listMaterias])
 
     const handleActiveToggle = () => {
-        const updatedMateria = { ...materia, active: !materia.active } // Altera a propriedade 'active'
-        onUpdateMateria && onUpdateMateria(updatedMateria) // Chama a função onUpdateMateria passando a matéria atualizada
+        // const updatedMateria = { ...materia, active: !materia.active } // Altera a propriedade 'active'
+        // onUpdateMateria && onUpdateMateria(updatedMateria) // Chama a função onUpdateMateria passando a matéria atualizada
     }
 
     return (
@@ -57,15 +56,15 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria
                     height: "fit-content",
                     p: "1vw",
                     borderRadius: "1vw",
-                    border:
-                        canView && !materia.active
-                            ? "1px solid black"
-                            : !materia.viewed
-                            ? "1px solid #E7E7E7"
-                            : materia.active && "none",
+                    // border:
+                    //     canView && !materia.active
+                    //         ? "1px solid black"
+                    //         : !materia.viewed
+                    //         ? "1px solid #E7E7E7"
+                    //         : materia.active && "none",
                     flexDirection: "column",
                     color: canView ? colors.black3 : "#E7E7E7",
-                    bgcolor: materia.active ? "#E3F7D7" : "transparent",
+                    // bgcolor: materia.active ? "#E3F7D7" : "transparent",
                 }}
             >
                 <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
@@ -75,10 +74,10 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria
                             <IoEyeOutline size={"1vw"} />
                         </IconButton>
                         <IconButton
-                            onClick={materia.viewed ? handleActiveToggle : () => {}}
+                            // onClick={materia.viewed ? handleActiveToggle : () => {}}
                             sx={{ "&:focus": { outline: "none" } }}
                         >
-                            <FaCheck size={"1vw"} color={materia.active ? "#59BE23" : "#E7E7E7"} />
+                            {/* <FaCheck size={"1vw"} color={materia.active ? "#59BE23" : "#E7E7E7"} /> */}
                         </IconButton>
                     </Box>
                 </Box>

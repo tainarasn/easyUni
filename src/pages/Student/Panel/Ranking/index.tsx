@@ -7,18 +7,23 @@ import { useHorizontalScroll } from "../../../../hooks/useHorizontalScroll"
 import { useArray } from "burgos-array"
 import { listMaterias } from "../../../../hooks/materias"
 import { ModalRanking } from "../../../../components/Ranking/ModalRanking"
+import { useUser } from "../../../../hooks/useUser"
+import { useSnackbar } from "burgos-snackbar"
+import { Materia } from "../../../../types/server/class/materia"
+import { api } from "../../../../api"
 
 interface RankingProps {}
 
 export const Ranking: React.FC<RankingProps> = ({}) => {
     const scrollRef = useHorizontalScroll()
-    const periods = useArray().newArray(10)
+    const { user } = useUser()
+    const periods = useArray().newArray(user?.student?.course.totalPeriods)
 
-    const [materias, setMaterias] = useState(listMaterias)
+    const [listMaterias, setListMaterias] = useState<Materia[]>([])
+    const [loading, setLoading] = useState(false)
+    const { snackbar } = useSnackbar()
     const [open, setOpen] = React.useState(false)
     // const handleOpen = () => setOpen(true)
-
-    const [loading, setLoading] = useState(false)
 
     const handleClick = () => {
         setLoading(true)
@@ -32,14 +37,28 @@ export const Ranking: React.FC<RankingProps> = ({}) => {
     }, [loading])
 
     const updateMateria = (updatedMateria: any) => {
-        const updatedMaterias = materias.map((item) => (item.code === updatedMateria.code ? updatedMateria : item))
+        const updatedMaterias = listMaterias.map((item) => (item.code === updatedMateria.code ? updatedMateria : item))
         // Atualiza o estado das matérias
-        setMaterias(updatedMaterias)
+        setListMaterias(updatedMaterias)
+    }
+
+    const fetchMaterias = async () => {
+        setLoading(true)
+        try {
+            const response = await api.get("/materia/all")
+            setListMaterias(response.data)
+            if (response) {
+                setLoading(false)
+            }
+        } catch (error) {
+            console.log(error)
+            snackbar({ text: "Algo deu errado! Recarregue a página.", severity: "error" })
+        }
     }
 
     useEffect(() => {
-        console.log(materias)
-    }, [materias])
+        fetchMaterias()
+    }, [])
     return (
         <Box sx={{ width: 1, height: 1, flexDirection: "column", gap: "0.8vw", borderRadius: 0 }}>
             <TitleUni title="Atualizar Grade" button click={handleClick} loading={loading} />
@@ -91,10 +110,16 @@ export const Ranking: React.FC<RankingProps> = ({}) => {
                             label={`${index + 1}º Período`}
                         />
 
-                        {materias
+                        {listMaterias
+                            .filter((item) => item.courseId == user?.student?.courseId)
                             .filter((item) => item.period == index + 1)
                             .map((materia, i) => (
-                                <BoxMateria key={i} materia={materia} onUpdateMateria={updateMateria} />
+                                <BoxMateria
+                                    key={i}
+                                    materia={materia}
+                                    onUpdateMateria={updateMateria}
+                                    // userMateriasCursadas={}
+                                />
                             ))}
                     </Box>
                 ))}
