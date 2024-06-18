@@ -89,9 +89,12 @@ export const HomeStudent: React.FC<HomeStudentProps> = ({}) => {
                     >
                         {" "}
                         <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>Atividades Complementares</p>
-                        {listActivity.slice(0.4).map((item, i) => (
-                            <ActivityCard home activity={item} key={i} />
-                        ))}
+                        {listActivity
+                            .filter((item) => item.studentId === user?.student?.id)
+                            .slice(0.4)
+                            .map((item, i) => (
+                                <ActivityCard home activity={item} key={i} />
+                            ))}
                     </Box>
                 </Box>
                 {user && <Resume user={user} />}

@@ -20,6 +20,7 @@ export class Student {
     period: number
     course?: Course
     courseId: number
+    materias: Materia[]
 
     constructor(userPrisma?: UserPrisma)
     static async signup(data: UserForm): Promise<User>

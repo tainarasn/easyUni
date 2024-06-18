@@ -90,6 +90,7 @@ export const Atividades: React.FC<AtividadesProps> = ({}) => {
             <Box sx={{ gap: "1vw" }}>
                 <Box sx={{ width: 0.75, flexDirection: "column", gap: "1vw" }}>
                     {listAtividade
+                        .filter((item) => item.studentId === user?.student?.id)
                         .sort((a, b) => b.id - a.id)
                         .slice((page - 1) * itemsPerPage, page * itemsPerPage)
                         .map((activity, index) => (

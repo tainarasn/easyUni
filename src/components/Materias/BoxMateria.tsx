@@ -7,16 +7,21 @@ import { useFormik } from "formik"
 import { colors } from "../../styles/colors"
 import { listMaterias } from "../../hooks/materias"
 import { Materia } from "../../types/server/class/materia"
+import { api } from "../../api"
+import { useUser } from "../../hooks/useUser"
 
 interface BoxMateriaProps {
     materia: Materia
     onUpdateMateria?: (updatedMateria: Materia) => void
+    fetchMaterias: () => Promise<void>
+    setListMaterias: React.Dispatch<React.SetStateAction<Materia[]>>
 }
 
-export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria }) => {
+export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria, fetchMaterias, setListMaterias }) => {
     const [open, setOpen] = React.useState(false)
-    const handleOpen = () => setOpen(true)
 
+    const handleOpen = () => setOpen(true)
+    const { user } = useUser()
     const formik = useFormik({
         initialValues: {
             code: materia.code || "",
@@ -43,10 +48,26 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria
         console.log(hasFalseRequirements)
     }, [hasFalseRequirements, listMaterias])
 
-    const handleActiveToggle = () => {
-        // const updatedMateria = { ...materia, active: !materia.active } // Altera a propriedade 'active'
-        // onUpdateMateria && onUpdateMateria(updatedMateria) // Chama a função onUpdateMateria passando a matéria atualizada
+    const handleAddMateria = async () => {
+        try {
+            const response = await api.post("/user/addMateria", { materiaId: materia.id, studentId: user?.student?.id })
+            console.log(response)
+
+            if (response) {
+                const fetchMaterias = async () => {
+                    try {
+                        const response = await api.get("/materia/all")
+                        setListMaterias(response.data)
+                    } catch (error) {
+                        console.log(error)
+                    }
+                }
+                fetchMaterias()
+            }
+        } catch (error) {}
     }
+
+    const cursada = user?.student?.materiasCursadas.find((item: Materia) => item.id === materia.id)
 
     return (
         <form onSubmit={formik.handleSubmit}>
@@ -56,15 +77,10 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria
                     height: "fit-content",
                     p: "1vw",
                     borderRadius: "1vw",
-                    // border:
-                    //     canView && !materia.active
-                    //         ? "1px solid black"
-                    //         : !materia.viewed
-                    //         ? "1px solid #E7E7E7"
-                    //         : materia.active && "none",
+                    border: cursada ? "1px solid #E7E7E7" : "1px solid black",
                     flexDirection: "column",
                     color: canView ? colors.black3 : "#E7E7E7",
-                    // bgcolor: materia.active ? "#E3F7D7" : "transparent",
+                    bgcolor: cursada ? "#E3F7D7" : "transparent",
                 }}
             >
                 <Box sx={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
@@ -74,10 +90,12 @@ export const BoxMateria: React.FC<BoxMateriaProps> = ({ materia, onUpdateMateria
                             <IoEyeOutline size={"1vw"} />
                         </IconButton>
                         <IconButton
-                            // onClick={materia.viewed ? handleActiveToggle : () => {}}
+                            onClick={() => {
+                                handleAddMateria()
+                            }}
                             sx={{ "&:focus": { outline: "none" } }}
                         >
-                            {/* <FaCheck size={"1vw"} color={materia.active ? "#59BE23" : "#E7E7E7"} /> */}
+                            <FaCheck size={"1vw"} color={cursada ? "green" : "gray"} />
                         </IconButton>
                     </Box>
                 </Box>

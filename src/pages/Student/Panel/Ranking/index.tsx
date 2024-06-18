@@ -26,15 +26,8 @@ export const Ranking: React.FC<RankingProps> = ({}) => {
     // const handleOpen = () => setOpen(true)
 
     const handleClick = () => {
-        setLoading(true)
+        setOpen(true)
     }
-
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false)
-            setOpen(true)
-        }, 3000)
-    }, [loading])
 
     const updateMateria = (updatedMateria: any) => {
         const updatedMaterias = listMaterias.map((item) => (item.code === updatedMateria.code ? updatedMateria : item))
@@ -58,7 +51,7 @@ export const Ranking: React.FC<RankingProps> = ({}) => {
 
     useEffect(() => {
         fetchMaterias()
-    }, [])
+    }, [user])
     return (
         <Box sx={{ width: 1, height: 1, flexDirection: "column", gap: "0.8vw", borderRadius: 0 }}>
             <TitleUni title="Atualizar Grade" button click={handleClick} loading={loading} />
@@ -118,6 +111,8 @@ export const Ranking: React.FC<RankingProps> = ({}) => {
                                     key={i}
                                     materia={materia}
                                     onUpdateMateria={updateMateria}
+                                    fetchMaterias={fetchMaterias}
+                                    setListMaterias={setListMaterias}
                                     // userMateriasCursadas={}
                                 />
                             ))}

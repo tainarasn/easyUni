@@ -115,7 +115,7 @@ export const Materias: React.FC<MateriasProps> = ({}) => {
                 sx={{
                     width: 1,
                     flexDirection: "column",
-                    gap: "0.7vw",
+                    gap: "0.5vw",
                 }}
             >
                 {listMaterias

@@ -35,6 +35,7 @@ export const MateriaBox: React.FC<MateriaBoxProps> = ({ materia }) => {
                     WebkitBoxOrient: "vertical",
                     WebkitLineClamp: 2,
                     overflow: "hidden",
+                    fontSize: "0.8rem",
                 }}
             >
                 {materia.name}
